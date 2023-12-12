@@ -1,0 +1,9 @@
+server:
+  port: 8088
+
+spring.profiles.active: dev
+spring.application.name: charge-service
+
+
+
+spring.config.import: optional:configserver:http://config:secret@localhost:8090
