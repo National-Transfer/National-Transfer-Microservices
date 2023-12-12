@@ -1,0 +1,21 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  security:
+    user:
+      name: config
+      password: secret
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+
+
+
+

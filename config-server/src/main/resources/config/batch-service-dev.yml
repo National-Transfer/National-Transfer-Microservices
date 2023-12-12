@@ -1,0 +1,14 @@
+spring.application.name: batch-service
+
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/transferDB
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

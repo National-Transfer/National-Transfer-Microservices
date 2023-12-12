@@ -1,0 +1,6 @@
+server:
+  port: 8081
+spring.profiles.active: dev
+spring.application.name: agency-service
+
+spring.config.import: optional:configserver:http://config:secret@localhost:8090

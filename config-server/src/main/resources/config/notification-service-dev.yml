@@ -1,0 +1,30 @@
+server:
+  port: 8086
+
+spring.application.name: notification-service
+
+
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:mysql://localhost:3307/notificationDB
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  instance.prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8089/eureka/

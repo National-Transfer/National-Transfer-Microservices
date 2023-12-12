@@ -1,0 +1,9 @@
+server:
+  port: 8089
+
+spring.application.name: eureka-server
+
+
+spring.config.import: optional:configserver:http://config:secret@localhost:8090
+
+
