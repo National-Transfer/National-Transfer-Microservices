@@ -1,12 +1,14 @@
-package com.ensa.agencyservice.dto;
+package com.ensa.accountservice;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AgencyDto {
-    private String name;
+@Builder
+public class AccountRequestDto {
+    private String ownerId;
 }
