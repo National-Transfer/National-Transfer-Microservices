@@ -58,3 +58,11 @@ eureka:
     fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8089/eureka/
+
+okta:
+  oauth2:
+    client-id: 0oae558kdiXkZM1KI5d7
+    client-secret: KMynKhgxCkMUCpduORW5KYOwhUyrn0gRsZTBhEhsYjgqlwLn4BJe7jGVBgrhCqe9
+    issuer: https://dev-69493338.okta.com/oauth2/default
+    audience: api://default
+    scopes: openid, email, profile, offline_access
