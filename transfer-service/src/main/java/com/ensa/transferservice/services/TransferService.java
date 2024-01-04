@@ -1,7 +1,6 @@
 package com.ensa.transferservice.services;
 
 import com.ensa.transferservice.entities.Transfer;
-import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.exceptions.ResourceNotFoundException;
 import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service

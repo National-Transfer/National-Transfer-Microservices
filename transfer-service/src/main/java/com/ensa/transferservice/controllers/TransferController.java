@@ -31,6 +31,7 @@ public class TransferController {
         return ResponseEntity.ok(
                 transferService.getAllTransfers(page, size)
         );
+
     }
 
     @GetMapping("/{reference}")
