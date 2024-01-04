@@ -1,0 +1,59 @@
+package com.ensa.kycservice.utils;
+
+import com.ensa.kycservice.dto.CustomerProfileRequest;
+import com.ensa.kycservice.entities.CustomerProfile;
+import com.ensa.kycservice.entities.Title;
+import com.ensa.kycservice.repositories.ClientRepository;
+import com.ensa.kycservice.repositories.ProspectRepository;
+import com.ensa.kycservice.services.ClientService;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+
+public class CustomerProfileUtil {
+
+    public static void updateCustomerProfile(CustomerProfile profile, CustomerProfileRequest request) {
+        if (request.getTitle() != null) {
+            profile.setTitle(Title.valueOf(request.getTitle()));
+        }
+        if (request.getFirstName() != null) {
+            profile.setFirstName(request.getFirstName());
+        }
+        if (request.getIdentityType() != null) {
+            profile.setIdentityType(request.getIdentityType());
+        }
+        if (request.getCountryOfIssue() != null) {
+            profile.setCountryOfIssue(request.getCountryOfIssue());
+        }
+        if (request.getIdentityNumber() != null) {
+            profile.setIdentityNumber(request.getIdentityNumber());
+        }
+        if (request.getIdentityValidity() != null) {
+            profile.setIdentityValidity(request.getIdentityValidity());
+        }
+        if (request.getDateOfBirth() != null) {
+            profile.setDateOfBirth(request.getDateOfBirth());
+        }
+        if (request.getProfession() != null) {
+            profile.setProfession(request.getProfession());
+        }
+        if (request.getNationality() != null) {
+            profile.setNationality(request.getNationality());
+        }
+        if (request.getCountryOfAddress() != null) {
+            profile.setCountryOfAddress(request.getCountryOfAddress());
+        }
+        if (request.getAddress() != null) {
+            profile.setAddress(request.getAddress());
+        }
+        if (request.getCity() != null) {
+            profile.setCity(request.getCity());
+        }
+        if (request.getPhoneNumber() != null) {
+            profile.setPhoneNumber(request.getPhoneNumber());
+        }
+        if (request.getEmail() != null) {
+            profile.setEmail(request.getEmail());
+        }
+    }
+}
