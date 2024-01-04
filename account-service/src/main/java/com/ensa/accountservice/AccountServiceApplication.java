@@ -44,6 +44,4 @@ public class AccountServiceApplication {
 		return ResponseEntity.ok().build();
 	}
 
-
-
 }
