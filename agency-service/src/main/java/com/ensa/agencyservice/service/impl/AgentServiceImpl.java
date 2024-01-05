@@ -13,6 +13,9 @@ import com.ensa.agencyservice.repository.AgentRepository;
 import com.ensa.agencyservice.repository.SalesPointRepository;
 import com.ensa.agencyservice.service.AgentService;
 import com.ensa.agencyservice.service.http.AccountFeignClient;
+import com.okta.sdk.client.Client;
+import com.okta.sdk.resource.user.User;
+import com.okta.sdk.resource.user.UserBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,7 @@ public class AgentServiceImpl implements AgentService {
     private final AgentRepository agentRepository;
     private final SalesPointRepository salesPointRepository;
     private final AccountFeignClient accountFeignClient;
+    private final Client client;
 
     @Override
     public AgentResponseDto createAgent(AgentRequestDto agentRequestDto) {
@@ -45,6 +49,15 @@ public class AgentServiceImpl implements AgentService {
         if (accountResponseDto == null) {
             throw new ResourceNotCreatedException("agent not created ! try again later .");
         }
+        
+        User agentOkta = UserBuilder.instance()
+                .setGroups("00ge6s3a1wYF8RD3g5d7") // AGENT GROUP ID
+                .setFirstName(agentEntity.getFirstName())
+                .setLastName(agentEntity.getLastName())
+                .setEmail(agentEntity.getEmail())
+                .setActive(true)
+                .setMobilePhone(agentEntity.getPhoneNumber())
+                .buildAndCreate(client);
 
         return AgentMapper.INSTANCE.toResponseDto(agentRepository.save(agentEntity), accountResponseDto);
     }
