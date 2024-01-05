@@ -3,6 +3,7 @@ package com.ensa.transferservice.controllers;
 import com.ensa.transferservice.dto.requests.*;
 import com.ensa.transferservice.dto.responses.ClientResponse;
 import com.ensa.transferservice.dto.responses.RecipientResponse;
+import com.ensa.transferservice.entities.Transfer;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.services.ReceiveTransferService;
 import com.ensa.transferservice.services.SendTransferService;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +38,33 @@ public class TransferController {
         return ResponseEntity.ok(
                 transferService.getAllTransfers(page, size)
         );
+    }
 
+    @GetMapping("/TransfersForBatch")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getAllTransfersForBatch()
+    {
+        return ResponseEntity.ok(
+                transferService.getAllTransfersForBatch()
+        );
+    }
+
+    @PostMapping("/saveAllTransfers")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> saveAllTransfers(@RequestBody List<Transfer> transfers)
+    {
+        return ResponseEntity.ok(
+                transferService.saveAllTransfers(transfers)
+        );
+    }
+
+    @DeleteMapping("/saveAllTransfers")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> deleteAllTransfers(@RequestBody List<Transfer> transfers)
+    {
+        transferService.deleteAllTransfers(transfers);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{reference}")
