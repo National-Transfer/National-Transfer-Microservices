@@ -40,6 +40,15 @@ public class TransferController {
         );
     }
 
+    @GetMapping("TransfersForClient/{clientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getAllTransfersForClient(@PathVariable String clientId)
+    {
+        return ResponseEntity.ok(
+                transferService.getAllTransfersForClient(clientId)
+        );
+    }
+
     @GetMapping("/TransfersForBatch")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getAllTransfersForBatch()
@@ -198,6 +207,7 @@ public class TransferController {
         NotificationRequest notif = NotificationRequest.builder()
                 .phone("0616061968")
                 .code(otp)
+                .transferReference("EDP2345435")
                 .transferAmount(BigDecimal.valueOf(100000))
                 .transferState(TransferState.RETURNED.toString())
                 .build();

@@ -10,10 +10,10 @@ spring:
     username: guest
     password: guest
   datasource:
-    url: jdbc:mysql://localhost:3306/notificationDB
+    url: jdbc:mysql://localhost:3307/notificationDB
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: secret
   jpa:
     hibernate:
       ddl-auto: update
@@ -28,6 +28,11 @@ notification:
   routingKey1: msgRoutingKey
   routingKey2: otpRoutingKey
 
+
+vonage:
+  api:
+    key:  3816695f
+    secret: 8udXW3G6HAwdesoo
 
 eureka:
   instance.prefer-ip-address: true

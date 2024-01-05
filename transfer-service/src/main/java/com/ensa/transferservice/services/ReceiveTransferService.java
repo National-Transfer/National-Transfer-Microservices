@@ -4,6 +4,7 @@ import com.ensa.transferservice.dto.requests.ServeTransferRequest;
 import com.ensa.transferservice.dto.responses.AccountResponse;
 import com.ensa.transferservice.dto.requests.NotificationRequest;
 import com.ensa.transferservice.entities.Transfer;
+import com.ensa.transferservice.enums.MsgType;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.enums.TransferType;
 import com.ensa.transferservice.exceptions.InvalidTransferException;
@@ -77,12 +78,14 @@ public class ReceiveTransferService {
 //            String otp =  transferService.generateOtpForSms();
 //            transfer.setOtpCode(otp);
 //
-//            //send otp notification to client
+            //send otp notification to client
 //            NotificationRequest request = NotificationRequest.builder()
 //                    .phone(client.getPhone())
 //                    .transferState(transfer.getTransferState())
 //                    .transferReference(transfer.getReference())
+//                    .transferAmount(transfer.getTransferAmount())
 //                    .code(otp)
+//                    .msgType(MsgType.OTP)
 //                    .build();
 //
 //            //send otp notification to client
@@ -110,6 +113,8 @@ public class ReceiveTransferService {
                     .phone(serveRequest.getPhone())
                     .transferState(transfer.getTransferState().toString())
                     .transferReference(transfer.getReference())
+                    .transferAmount(transfer.getTransferAmount())
+                    .msgType(MsgType.TO_CLIENT.toString())
                     .build();
 
             rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);
@@ -136,9 +141,15 @@ public class ReceiveTransferService {
 //        {
 //            transfer.setTransferState(TransferState.SERVED);
 //            if(transfer.getTransferNotification()) {
-//                //msg to client with info
-//                //rabbitmq ?? recipient phone
-//                rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", transfer);
+//msg to client with info
+//                NotificationRequest notificationRequest = NotificationRequest.builder()
+//                        .phone(serveRequest.getPhone())
+//                        .transferState(transfer.getTransferState().toString())
+//                        .transferReference(transfer.getReference())
+//                        .transferAmount(transfer.getTransferAmount())
+//                        .msgType(MsgType.TO_CLIENT.toString())
+//                        .build();
+//                rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);
 //            }
 //            return transferRepo.save(transfer);
 //
@@ -160,12 +171,10 @@ public class ReceiveTransferService {
             throw new InvalidTransferException("Transfer returned");
 
         if(transfer.getTransferState() == TransferState.ESCHEAT)
-            throw new InvalidTransferException("Transfer desere");
+            throw new InvalidTransferException("Transfer desiré");
 
         if(transfer.getExpirationDate().isBefore(LocalDate.now()))
             throw new InvalidTransferException("Transfer expired");
     }
-
-
 
 }
