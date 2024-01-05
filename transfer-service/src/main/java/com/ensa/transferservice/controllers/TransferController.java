@@ -3,14 +3,18 @@ package com.ensa.transferservice.controllers;
 import com.ensa.transferservice.dto.requests.*;
 import com.ensa.transferservice.dto.responses.ClientResponse;
 import com.ensa.transferservice.dto.responses.RecipientResponse;
+import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.services.ReceiveTransferService;
 import com.ensa.transferservice.services.SendTransferService;
 import com.ensa.transferservice.services.TransferOperationService;
 import com.ensa.transferservice.services.TransferService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class TransferController {
     private final TransferService transferService;
     private final SendTransferService sendTransferService;
     private final ReceiveTransferService receiveTransferService;
+    private final RabbitTemplate rabbitTemplate;
 
     private final TransferOperationService transferOperationService;
 
@@ -86,7 +91,7 @@ public class TransferController {
         );
     }
 
-    @GetMapping("/{reference}")
+    @GetMapping("/transfer/{reference}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> checkTransferToServe(@PathVariable String reference)
     {
@@ -155,5 +160,22 @@ public class TransferController {
                 transferOperationService.unblockTransfer(request)
         );
     }
+
+    @GetMapping ("/dummy")
+    @ResponseStatus(HttpStatus.OK)
+    public void dummy()
+    {
+        String otp =  transferService.generateOtpForSms();
+
+        NotificationRequest notif = NotificationRequest.builder()
+                .phone("0616061968")
+                .code(otp)
+                .transferAmount(BigDecimal.valueOf(100000))
+                .transferState(TransferState.RETURNED.toString())
+                .build();
+
+                rabbitTemplate.convertAndSend("notificationExchange", "otpRoutingKey", notif);
+    }
+
 
 }

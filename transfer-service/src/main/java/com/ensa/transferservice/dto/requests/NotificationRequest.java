@@ -21,5 +21,5 @@ public class NotificationRequest {
     private String transferReference;
     private String code;
     private BigDecimal transferAmount;
-    private TransferState transferState;
+    private String transferState;
 }

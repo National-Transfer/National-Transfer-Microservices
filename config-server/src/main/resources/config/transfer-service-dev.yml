@@ -6,20 +6,35 @@ spring.application.name: transfer-service
 
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer:
+          jwk-set-uri: https://dev-12637298.okta.com/oauth2/default/v1/keys
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
   datasource:
-    url: jdbc:mysql://localhost:3307/transferDB
+    url: jdbc:mysql://localhost:3306/transferDB
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: secret
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+notification:
+  exchange: notificationExchange
+  queues:
+    queue1: msgQueue
+    queue2: otpQueue
+  routingKey1: msgRoutingKey
+  routingKey2: otpRoutingKey
+
 
 eureka:
   instance.prefer-ip-address: true
@@ -28,3 +43,9 @@ eureka:
     fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8089/eureka/
+
+okta:
+  oauth2:
+    issuer: https://dev-12637298.okta.com/oauth2/default
+    audience: api://default
+    groups-claim: groups

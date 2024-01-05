@@ -178,7 +178,7 @@ public class SendTransferService {
                         .transferReference(transfer.getReference())
                         .code(pin)
                         .transferAmount(transfer.getTransferAmount())
-                        .transferState(transfer.getTransferState())
+                        .transferState(transfer.getTransferState().toString())
                         .build();
                 rabbitTemplate.convertAndSend(exchangeName, "msgRoutingKey", notificationRequest);
             }
@@ -203,7 +203,7 @@ public class SendTransferService {
                         .phone(request.getRecipientPhone())
                         .transferReference(transfer.getReference())
                         .transferAmount(transfer.getTransferAmount())
-                        .transferState(transfer.getTransferState())
+                        .transferState(transfer.getTransferState().toString())
                         .build();
 
                 rabbitTemplate.convertAndSend(exchangeName ,"msgRoutingKey", notificationRequest);

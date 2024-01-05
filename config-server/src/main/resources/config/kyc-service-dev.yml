@@ -7,10 +7,10 @@ spring.application.name: kyc-service
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3307/customerDB
+    url: jdbc:mysql://localhost:3306/customerDB
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: secret
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,3 +23,12 @@ eureka:
     fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8089/eureka/
+
+okta:
+  oauth2:
+    issuer: https://dev-12637298.okta.com/oauth2/default
+    audience: api://default
+    groups-claim: groups
+  client:
+    orgUrl: https://dev-12637298.okta.com
+    token: 00wxpCEz4sY5bGhRSflf4yvzoJ6scD6ARFcQvEb4W7
