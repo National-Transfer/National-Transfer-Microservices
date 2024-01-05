@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class AccountRequestDto {
     private String ownerId;
+    // private AccountType accountType; "AGENT", "CLIENT"
 }
