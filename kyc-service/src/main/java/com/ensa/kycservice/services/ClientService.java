@@ -47,7 +47,7 @@ public class ClientService {
             throw new IllegalStateException("Client already exists");
         } else {
             Client clientSaved = clientRepository.save(clientRequest.mapToClient());
-            AccountResponseDto accountDto = accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).build());
+            AccountResponseDto accountDto = accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).accountType("CLIENT").build());
             return new ClientResponse(clientSaved, accountDto);
         }
 

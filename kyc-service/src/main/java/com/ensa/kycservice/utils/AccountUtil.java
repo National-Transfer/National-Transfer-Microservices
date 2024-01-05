@@ -11,22 +11,22 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class AccountUtil {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
 
     public AccountResponseDto createAccountForClient(AccountRequestDto dto){
-        return webClient
+        return webClient.build()
                 .post()
-                .uri("")
+                .uri("/createAccount")
                 .bodyValue(dto)
                 .retrieve()
                 .bodyToMono(AccountResponseDto.class)
                 .block();
     }
 
-    public AccountResponseDto getAccountForClient(Long id){
-        return webClient
+    public AccountResponseDto getAccountForClient(Long ownerId){
+        return webClient.build()
                 .get()
-                .uri("",id)
+                .uri("/owner/{ownerId}",ownerId)
                 .retrieve()
                 .bodyToMono(AccountResponseDto.class)
                 .block();

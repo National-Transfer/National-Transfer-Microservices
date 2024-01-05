@@ -29,7 +29,7 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccountByAccountCode(accountCode));
     }
 
-    @GetMapping("/{ownerId}")
+    @GetMapping("/owner/{ownerId}")
     public ResponseEntity<Optional<Account>> getAccountByOwnerId(@PathVariable Long ownerId) {
         return ResponseEntity.ok(accountService.getAccountByOwnerId(ownerId));
     }

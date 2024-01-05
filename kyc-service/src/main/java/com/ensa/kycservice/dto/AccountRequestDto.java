@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AccountRequestDto {
     private String ownerId;
+    private String accountType;
 }

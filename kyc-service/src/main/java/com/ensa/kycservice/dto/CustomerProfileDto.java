@@ -14,6 +14,8 @@ import java.util.Date;
 @SuperBuilder
 
 public class CustomerProfileDto {
+    protected long id;
+
     protected String title;
 
     protected String firstName;

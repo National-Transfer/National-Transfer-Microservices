@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class ClientResponse extends CustomerProfileDto{
 
    public ClientResponse(Client client, AccountResponseDto accountResponseDto) {
+      this.id = client.getId();
       this.title = client.getTitle();
       this.firstName = client.getFirstName();
       this.identityType = client.getIdentityType();

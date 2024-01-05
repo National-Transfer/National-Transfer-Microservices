@@ -81,7 +81,7 @@ public class ProspectService {
         prospectRepository.delete(prospect);
 
         // Call Account Microservice to create Account
-        //accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).build());
+        accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).accountType("CLIENT").build());
 
         return "prospect converted to client successfully";
     }
