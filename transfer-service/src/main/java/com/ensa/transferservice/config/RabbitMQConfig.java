@@ -4,36 +4,34 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    //jackson converter
+    @Value("${notification.exchange}")
+    private String exchange;
+
     @Bean
-    public DirectExchange notificationExchange() {
-        return new DirectExchange("notificationExchange");
+    public DirectExchange directExchange () {
+        return new DirectExchange(exchange);
     }
 
     @Bean
-    public Queue msgNotificationQueue() {
-        return new Queue("msgQueue");
+    public RabbitTemplate rabbitTemplate (final ConnectionFactory connectionFactory) {
+        final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
     }
 
     @Bean
-    public Queue otpNotificationQueue() {
-        return new Queue("otpQueue");
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter () {
+        return new Jackson2JsonMessageConverter();
     }
 
-    @Bean
-    public Binding bindEmailQueueToExchange(Queue msgNotificationQueue, DirectExchange notificationExchange) {
-        return BindingBuilder.bind(msgNotificationQueue).to(notificationExchange).with("msgRoutingKey");
-    }
-
-    @Bean
-    public Binding bindOTPQueueToExchange(Queue otpNotificationQueue, DirectExchange notificationExchange) {
-        return BindingBuilder.bind(otpNotificationQueue).to(notificationExchange).with("otpRoutingKey");
-    }
 }
-

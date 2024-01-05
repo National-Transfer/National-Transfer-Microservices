@@ -18,14 +18,23 @@ spring:
     username: guest
     password: guest
   datasource:
-    url: jdbc:mysql://localhost:3307/transferDB
+    url: jdbc:mysql://localhost:3306/transferDB
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: secret
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+notification:
+  exchange: notificationExchange
+  queues:
+    queue1: msgQueue
+    queue2: otpQueue
+  routingKey1: msgRoutingKey
+  routingKey2: otpRoutingKey
+
 
 eureka:
   instance.prefer-ip-address: true

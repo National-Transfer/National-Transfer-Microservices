@@ -108,7 +108,7 @@ public class ReceiveTransferService {
             //msg to client with info
             NotificationRequest notificationRequest = NotificationRequest.builder()
                     .phone(serveRequest.getPhone())
-                    .transferState(transfer.getTransferState())
+                    .transferState(transfer.getTransferState().toString())
                     .transferReference(transfer.getReference())
                     .build();
 

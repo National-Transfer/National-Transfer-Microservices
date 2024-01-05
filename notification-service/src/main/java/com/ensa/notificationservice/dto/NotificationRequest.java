@@ -1,8 +1,5 @@
-package com.ensa.transferservice.dto.requests;
+package com.ensa.notificationservice.dto;
 
-import com.ensa.transferservice.enums.TransferState;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class NotificationRequest {
-    @NotNull
-    @Pattern(regexp = "(^$|[0-9]{10})")
     private String phone;
     private String transferReference;
     private String code;

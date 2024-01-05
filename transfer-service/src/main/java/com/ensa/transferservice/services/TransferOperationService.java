@@ -91,7 +91,7 @@ public class TransferOperationService {
             NotificationRequest request = NotificationRequest.builder()
                     .phone(operationRequest.getClientPhone())
                     .code(otp)
-                    .transferState(transfer.getTransferState())
+                    .transferState(transfer.getTransferState().toString())
                     .transferReference(transfer.getReference())
                     .build();
 
@@ -150,7 +150,7 @@ public class TransferOperationService {
             NotificationRequest notificationRequest = NotificationRequest.builder()
                     .phone(phone)
                     .transferReference(transfer.getReference())
-                    .transferState(transfer.getTransferState())
+                    .transferState(transfer.getTransferState().toString())
                     .build();
             rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);
         }
