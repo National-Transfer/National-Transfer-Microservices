@@ -1,4 +1,4 @@
-package com.ensa.agencyservice.security;
+package com.ensa.accountservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
