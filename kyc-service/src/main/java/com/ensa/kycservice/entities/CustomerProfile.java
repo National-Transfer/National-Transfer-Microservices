@@ -26,8 +26,7 @@ public class CustomerProfile {
     protected Long id;
 
     @NotBlank(message = "Title is required")
-    @Enumerated(EnumType.STRING)
-    protected Title title;
+    protected String title;
 
     @NotBlank(message = "First name is required")
     protected String firstName;

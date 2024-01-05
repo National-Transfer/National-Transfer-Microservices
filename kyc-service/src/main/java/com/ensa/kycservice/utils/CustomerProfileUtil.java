@@ -1,20 +1,17 @@
 package com.ensa.kycservice.utils;
 
-import com.ensa.kycservice.dto.CustomerProfileRequest;
+import com.ensa.kycservice.dto.CustomerProfileDto;
 import com.ensa.kycservice.entities.CustomerProfile;
 import com.ensa.kycservice.entities.Title;
-import com.ensa.kycservice.repositories.ClientRepository;
-import com.ensa.kycservice.repositories.ProspectRepository;
-import com.ensa.kycservice.services.ClientService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 
 public class CustomerProfileUtil {
 
-    public static void updateCustomerProfile(CustomerProfile profile, CustomerProfileRequest request) {
+    public static void updateCustomerProfile(CustomerProfile profile, CustomerProfileDto request) {
         if (request.getTitle() != null) {
-            profile.setTitle(Title.valueOf(request.getTitle()));
+            profile.setTitle(request.getTitle());
         }
         if (request.getFirstName() != null) {
             profile.setFirstName(request.getFirstName());

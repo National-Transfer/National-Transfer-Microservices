@@ -7,18 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
-public class ProspectRequest extends CustomerProfileRequest{
+public class ProspectRequest extends CustomerProfileDto {
 
 
     public Prospect mapToProspect(){
         return Prospect.builder()
-                .title(Title.valueOf(this.getTitle().toUpperCase()))
+                .title(this.getTitle())
                 .firstName(this.getFirstName())
                 .identityType(this.getIdentityType())
                 .countryOfIssue(this.getCountryOfIssue())

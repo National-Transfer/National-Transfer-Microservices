@@ -23,7 +23,7 @@ public class BeneficiaryService {
     private final ProspectRepository prospectRepository;
     private final ClientRepository clientRepository;
 
-    public String saveBeneficiaryForClient(Long clientId, BeneficiaryRequest beneficiaryRequest){
+    public Beneficiary saveBeneficiaryForClient(Long clientId, BeneficiaryRequest beneficiaryRequest){
         Client client = clientRepository.findById(clientId).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + clientId));
         Beneficiary beneficiary = Beneficiary.builder()
                 .firstName(beneficiaryRequest.getFirstName())
@@ -31,11 +31,10 @@ public class BeneficiaryService {
                 .phoneNumber(beneficiaryRequest.getPhoneNumber())
                 .client(client)
                 .build();
-        beneficiaryRepository.save(beneficiary);
-        return "beneficiary saved successfully for client with id " + clientId;
+        return beneficiaryRepository.save(beneficiary);
     }
 
-    public String saveBeneficiaryForProspect(Long prospectId, BeneficiaryRequest beneficiaryRequest){
+    public Beneficiary saveBeneficiaryForProspect(Long prospectId, BeneficiaryRequest beneficiaryRequest){
         Prospect prospect = prospectRepository.findById(prospectId).orElseThrow(() -> new EntityNotFoundException("Prospect not found with id " + prospectId));
         Beneficiary beneficiary = Beneficiary.builder()
                 .firstName(beneficiaryRequest.getFirstName())
@@ -43,8 +42,7 @@ public class BeneficiaryService {
                 .phoneNumber(beneficiaryRequest.getPhoneNumber())
                 .prospect(prospect)
                 .build();
-        beneficiaryRepository.save(beneficiary);
-        return "beneficiary saved successfully for prospect with id " + prospectId;
+        return beneficiaryRepository.save(beneficiary);
     }
 
     public List<Beneficiary> getBeneficiariesForClient(Long clientId){
@@ -57,7 +55,7 @@ public class BeneficiaryService {
         return beneficiaryRepository.findByProspect(prospect).orElseThrow();
     }
 
-    public String updateBeneficiary(Long id, BeneficiaryRequest request) {
+    public Beneficiary updateBeneficiary(Long id, BeneficiaryRequest request) {
 
         Beneficiary beneficiary = beneficiaryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Beneficiary not found with id : " + id));
@@ -72,8 +70,7 @@ public class BeneficiaryService {
             beneficiary.setPhoneNumber(request.getPhoneNumber());
         }
 
-        beneficiaryRepository.save(beneficiary);
-        return "beneficiary with id {" + id  + "} updated successfully";
+        return beneficiaryRepository.save(beneficiary);
     }
 
     public String deleteBeneficiary(Long id) {

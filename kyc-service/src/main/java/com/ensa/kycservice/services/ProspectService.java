@@ -1,12 +1,14 @@
 package com.ensa.kycservice.services;
 
 
+import com.ensa.kycservice.dto.AccountRequestDto;
 import com.ensa.kycservice.dto.ProspectRequest;
 import com.ensa.kycservice.entities.Client;
 import com.ensa.kycservice.entities.Prospect;
 import com.ensa.kycservice.repositories.BeneficiaryRepository;
 import com.ensa.kycservice.repositories.ClientRepository;
 import com.ensa.kycservice.repositories.ProspectRepository;
+import com.ensa.kycservice.utils.AccountUtil;
 import com.ensa.kycservice.utils.CustomerProfileUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class ProspectService {
     private final ProspectRepository prospectRepository;
     private final ClientRepository clientRepository;
     private final BeneficiaryRepository beneficiaryRepository;
+    private final AccountUtil accountUtil;
 
 
     public Prospect getProspect(String identityNumber){
@@ -35,12 +38,11 @@ public class ProspectService {
         return prospectRepository.findAll();
     }
 
-    public String saveProspect(ProspectRequest prospectRequest){
+    public Prospect saveProspect(ProspectRequest prospectRequest){
         if (prospectRepository.existsByIdentityNumber(prospectRequest.getIdentityNumber())){
-            return "prospect already exists";
+            throw new IllegalStateException("Prospect already exists");
         } else{
-            prospectRepository.save(prospectRequest.mapToProspect());
-            return "prospect saved successfully";
+           return prospectRepository.save(prospectRequest.mapToProspect());
         }
     }
 
@@ -48,12 +50,11 @@ public class ProspectService {
         return prospectRepository.existsByIdentityNumber(identityNumber);
     }
 
-    public String updateProspect(Long id, ProspectRequest prospectRequest){ // here
+    public Prospect updateProspect(Long id, ProspectRequest prospectRequest){ // here
         Prospect prospect = prospectRepository.findById(id).orElseThrow();
 
         CustomerProfileUtil.updateCustomerProfile(prospect, prospectRequest);
-        prospectRepository.save(prospect);
-        return "prospect of id {" + id + "} updated successfully";
+        return prospectRepository.save(prospect);
     }
 
     public String deleteProspect(Long id){
@@ -65,7 +66,7 @@ public class ProspectService {
     public String convertToClient(Long id){
         Prospect prospect = prospectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Prospect not found with id: " + id));
         Client client = new Client(prospect);
-        clientRepository.save(client);
+        Client clientSaved = clientRepository.save(client);
         if (prospect.getBeneficiaries() != null) {
             client.setBeneficiaries(new HashSet<>(prospect.getBeneficiaries()));
 
@@ -80,6 +81,7 @@ public class ProspectService {
         prospectRepository.delete(prospect);
 
         // Call Account Microservice to create Account
+        //accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).build());
 
         return "prospect converted to client successfully";
     }

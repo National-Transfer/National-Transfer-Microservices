@@ -3,12 +3,14 @@ package com.ensa.kycservice.controllers;
 
 import com.ensa.kycservice.dto.BeneficiaryRequest;
 import com.ensa.kycservice.dto.Response;
+import com.ensa.kycservice.entities.Beneficiary;
 import com.ensa.kycservice.services.BeneficiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -20,70 +22,44 @@ public class BeneficiaryController {
 
 
     @PostMapping("/prospect/{prospectId}")
-    public ResponseEntity<Response> saveBeneficiaryForProspect(@PathVariable Long prospectId, @RequestBody BeneficiaryRequest request){
+    public ResponseEntity<Beneficiary> saveBeneficiaryForProspect(@PathVariable Long prospectId, @RequestBody BeneficiaryRequest request){
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message(beneficiaryService.saveBeneficiaryForProspect(prospectId, request))
-                        .build()
+                beneficiaryService.saveBeneficiaryForProspect(prospectId, request)
         );
     }
 
     @PostMapping("/client/{clientId}")
-    public ResponseEntity<Response> saveBeneficiaryForClient(@PathVariable Long clientId, @RequestBody BeneficiaryRequest request){
+    public ResponseEntity<Beneficiary> saveBeneficiaryForClient(@PathVariable Long clientId, @RequestBody BeneficiaryRequest request){
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message(beneficiaryService.saveBeneficiaryForClient(clientId, request))
-                        .build()
+                beneficiaryService.saveBeneficiaryForClient(clientId, request)
         );
     }
 
     @GetMapping("/prospect/{id}")
-    public ResponseEntity<Response> getAllBeneficiariesForProspect(@PathVariable Long id){
+    public ResponseEntity<List<Beneficiary>> getAllBeneficiariesForProspect(@PathVariable Long id){
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message("All beneficiaries retrieved for prospect with id : " + id)
-                        .data(Map.of("beneficiaries", beneficiaryService.getBeneficiariesForProspect(id)))
-                        .build()
+                beneficiaryService.getBeneficiariesForProspect(id)
         );
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<Response> getAllBeneficiariesForClient(@PathVariable Long id){
+    public ResponseEntity<List<Beneficiary>> getAllBeneficiariesForClient(@PathVariable Long id){
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message("All beneficiaries retrieved for client with id : " + id)
-                        .data(Map.of("beneficiaries", beneficiaryService.getBeneficiariesForClient(id)))
-                        .build()
+                beneficiaryService.getBeneficiariesForClient(id)
         );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateBeneficiary(@PathVariable Long id, @RequestBody BeneficiaryRequest request) {
+    public ResponseEntity<Beneficiary> updateBeneficiary(@PathVariable Long id, @RequestBody BeneficiaryRequest request) {
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message(beneficiaryService.updateBeneficiary(id,request))
-                        .build()
+                beneficiaryService.updateBeneficiary(id,request)
         );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteBeneficiary(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBeneficiary(@PathVariable Long id) {
         return ResponseEntity.ok(
-                Response.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .status(HttpStatus.OK)
-                        .message(beneficiaryService.deleteBeneficiary(id))
-                        .build()
+                beneficiaryService.deleteBeneficiary(id)
         );
     }
 }

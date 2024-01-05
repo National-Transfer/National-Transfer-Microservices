@@ -3,6 +3,7 @@ package com.ensa.kycservice.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -10,33 +11,34 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 
-public class CustomerProfileRequest {
-    private String title;
+public class CustomerProfileDto {
+    protected String title;
 
-    private String firstName;
+    protected String firstName;
 
-    private String identityType;
+    protected String identityType;
 
-    private String countryOfIssue;
+    protected String countryOfIssue;
 
-    private String identityNumber;
+    protected String identityNumber;
 
-    private Date identityValidity;
+    protected Date identityValidity;
 
-    private Date dateOfBirth;
+    protected Date dateOfBirth;
 
-    private String profession;
+    protected String profession;
 
-    private String nationality;
+    protected String nationality;
 
-    private String countryOfAddress;
+    protected String countryOfAddress;
 
-    private String address;
+    protected String address;
 
-    private String city;
+    protected String city;
 
-    private String phoneNumber;
+    protected String phoneNumber;
 
-    private String email;
+    protected String email;
 }

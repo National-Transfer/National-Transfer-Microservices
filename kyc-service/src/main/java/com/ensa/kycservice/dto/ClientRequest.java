@@ -1,23 +1,18 @@
 package com.ensa.kycservice.dto;
 
 import com.ensa.kycservice.entities.Client;
-import com.ensa.kycservice.entities.Prospect;
 import com.ensa.kycservice.entities.Title;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
-public class ClientRequest extends CustomerProfileRequest{
+public class ClientRequest extends CustomerProfileDto {
 
     public Client mapToClient(){
         return Client.builder()
-                .title(Title.valueOf(this.getTitle().toUpperCase()))
+                .title(this.getTitle())
                 .firstName(this.getFirstName())
                 .identityType(this.getIdentityType())
                 .countryOfIssue(this.getCountryOfIssue())
