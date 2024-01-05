@@ -16,5 +16,7 @@ public interface TransferRepo extends JpaRepository<Transfer, String> {
 
     public List<Transfer> findByTransferState(TransferState transferState);
 
+    public List<Transfer> findByClientId(String id);
+
 }
 

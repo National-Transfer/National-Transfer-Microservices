@@ -4,4 +4,5 @@ server:
 spring.profiles.active: dev
 spring.application.name: notification-service
 
+
 spring.config.import: optional:configserver:http://config:secret@localhost:8090

@@ -18,10 +18,10 @@ spring:
     username: guest
     password: guest
   datasource:
-    url: jdbc:mysql://localhost:3306/transferDB
+    url: jdbc:mysql://localhost:3307/transferDB
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: secret
   jpa:
     hibernate:
       ddl-auto: update
