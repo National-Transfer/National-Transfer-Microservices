@@ -17,37 +17,38 @@ spring:
             allowedHeaders: "*"
       discovery:
         locator:
-          enabled: false
+          enabled: true
           lower-case-service-id: true
-      routes:
-        - id: agency-service
-          uri: lb://agency-service
-          predicates:
-            - Path=/agents/**
-        - id: account-service
-          uri: lb://account-service
-          predicates:
-            - Path=/api/v1/accounts/**
-        - id: fraud-service
-          uri: lb://fraud-service
-          predicates:
-            - Path=/api/v1/frauds/**
-        - id: transfer-service
-          uri: lb://transfer-service
-          predicates:
-            - Path=/api/v1/transfers/**
-        - id: gab-service
-          uri: lb://gab-service
-          predicates:
-            - Path=/api/v1/gab/**
-        - id: kyc-service
-          uri: lb://kyc-service
-          predicates:
-            - Path=/api/v1/**
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/api/iv1/notifications/**
+#      routes:
+#        - id: agency-service
+#          uri: lb://agency-service
+#          predicates:
+#            - Path=/api/v1/agents/**
+#            - Path=/api/v1/salesPoints/**
+#        - id: account-service
+#          uri: lb://account-service
+#          predicates:
+#            - Path=/account/**
+#        - id: fraud-service
+#          uri: lb://fraud-service
+#          predicates:
+#            - Path=/fraud/**
+#        - id: transfer-service
+#          uri: lb://transfer-service
+#          predicates:
+#            - Path=/transfer/**
+#        - id: gab-service
+#          uri: lb://gab-service
+#          predicates:
+#            - Path=/gab/**
+#        - id: kyc-service
+#          uri: lb://kyc-service
+#          predicates:
+#            - Path=/kyc/**
+#        - id: notification-service
+#          uri: lb://notification-service
+#          predicates:
+#            - Path=/notification/**
 
 
 
