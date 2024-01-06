@@ -177,6 +177,7 @@ public class SendTransferService {
         if(transfer.getTransferType().equals(TransferType.IN_CASH)){
             if(transfer.getTransferNotification()) {
                 transfer.setPinCode(pin);
+
                 //msg to recipient with info
                 NotificationRequest notificationRequest = NotificationRequest.builder()
                         .phone(request.getRecipientPhone())

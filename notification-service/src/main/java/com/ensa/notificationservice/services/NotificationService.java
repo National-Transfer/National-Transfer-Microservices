@@ -2,6 +2,9 @@ package com.ensa.notificationservice.services;
 
 
 import com.ensa.notificationservice.dto.NotificationRequest;
+import com.ensa.notificationservice.entities.Notification;
+import com.ensa.notificationservice.repositories.NotificationRepo;
+import com.vonage.client.sms.SmsSubmissionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -11,9 +14,10 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
 
     private final SmsService smsService;
+    private final NotificationRepo notificationRepo;
 
     @RabbitListener(queues = "${notification.queues.queue1}")
-    public void msgReceiveMessage(NotificationRequest request) {
+    public Notification msgReceiveMessage(NotificationRequest request) {
         String verificationMsg = null;
 
         if ("TO_RECIPIENT".equals(request.getMsgType())) {
@@ -29,32 +33,41 @@ public class NotificationService {
             }
         }
         if (verificationMsg != null) {
-            smsService.sendSMS(request.getPhone(), verificationMsg);
-            System.out.println(request);
+            return generateNotification(request, verificationMsg);
         }
+        return null;
     }
 
     @RabbitListener(queues = "${notification.queues.queue2}")
-    public void otpReceiveMessage(NotificationRequest request) {
+    public Notification otpReceiveMessage(NotificationRequest request) {
 
         String verificationMsg = generateSmsForOtp(request);
-        smsService.sendSMS(request.getPhone(), verificationMsg);
-        System.out.println(request);
+        return generateNotification(request, verificationMsg);
+
+    }
+
+    private Notification generateNotification(NotificationRequest request, String verificationMsg) {
+        SmsSubmissionResponse response = smsService.sendSMS(request.getPhone(), verificationMsg);
+        Notification notification = Notification.builder()
+                .recipientPhone(request.getPhone())
+                .textBody(verificationMsg)
+                .messageId(response.getMessages().get(0).getId())
+                .responseStatus(response.getMessages().get(0).getStatus().toString())
+                .messagePrice(response.getMessages().get(0).getMessagePrice())
+                .errorMessage(response.getMessages().get(0).getErrorText())
+                .build();
+
+        return notificationRepo.save(notification);
     }
 
     private String mapTransferStateToOperation(String transferState) {
-        switch (transferState) {
-            case "BLOCKED":
-                return "Bloqué";
-            case "UNBLOCKED":
-                return "Débloqué";
-            case "REVERSED":
-                return "Extourné";
-            case "RETURNED":
-                return "Restitué";
-            default:
-                throw new IllegalArgumentException("Unknown transfer state: " + transferState);
-        }
+        return switch (transferState) {
+            case "BLOCKED" -> "Bloqué";
+            case "UNBLOCKED" -> "Débloqué";
+            case "REVERSED" -> "Extourné";
+            case "RETURNED" -> "Restitué";
+            default -> throw new IllegalArgumentException("Unknown transfer state: " + transferState);
+        };
     }
 
     private String generateSmsForOtp( NotificationRequest request){

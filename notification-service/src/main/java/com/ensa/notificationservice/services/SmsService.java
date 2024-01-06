@@ -21,7 +21,7 @@ public class SmsService {
     private String secret;
 
 
-    public String sendSMS(String phone, String content) {
+    public SmsSubmissionResponse sendSMS(String phone, String content) {
         VonageClient vonageClient = VonageClient.builder()
                 .apiKey(key)
                 .apiSecret(secret)
@@ -29,16 +29,16 @@ public class SmsService {
 
         phone = "+212" + phone.substring(1);
 
-        TextMessage message = new TextMessage("National-Transfer", phone, content);
+        TextMessage message = new TextMessage("Transfer", phone, content);
 
         SmsSubmissionResponse response = vonageClient.getSmsClient().submitMessage(message);
 
         if (response.getMessages().get(0).getStatus() == MessageStatus.OK) {
             System.out.println("message sent successfully to " + phone);
-            return "message sent successfully";
         } else {
-            throw new IllegalStateException("problem while sending message ");
+            System.out.println("problem while sending message ");
         }
 
+        return response;
     }
 }
