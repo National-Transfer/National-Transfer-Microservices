@@ -1,3 +1,5 @@
+server:
+  port: 8099
 
 spring.application.name: batch-service
 spring.profiles.active: dev

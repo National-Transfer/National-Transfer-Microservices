@@ -16,16 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class BatchServiceApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(BatchServiceApplication.class, args);
-//		JobLauncher jobLauncher = context.getBean(JobLauncher.class);
-//		Job job = context.getBean("importUserJob", Job.class);
-//
-//		try {
-//			JobExecution execution = jobLauncher.run(job, new JobParameters());
-//			System.out.println("Job Status : " + execution.getStatus());
-//		} catch (JobExecutionException e) {
-//			e.printStackTrace();
-//		}
+		SpringApplication.run(BatchServiceApplication.class, args);
 	}
 
 }
