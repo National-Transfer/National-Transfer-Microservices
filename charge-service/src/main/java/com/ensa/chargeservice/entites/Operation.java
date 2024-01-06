@@ -12,11 +12,8 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
-@Entity
 public class Operation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private  Long transferId;
 
     private BigDecimal montant;

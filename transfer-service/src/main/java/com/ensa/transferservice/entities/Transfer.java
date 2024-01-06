@@ -1,5 +1,6 @@
 package com.ensa.transferservice.entities;
 
+import com.ensa.transferservice.enums.CommissionType;
 import com.ensa.transferservice.enums.TransferReason;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.enums.TransferType;
@@ -38,6 +39,8 @@ public class Transfer {
     private TransferType transferType;
     private TransferReason transferReason;
     private TransferState transferState;
+
+    private CommissionType commissionType;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
