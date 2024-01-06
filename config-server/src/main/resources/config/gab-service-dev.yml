@@ -28,3 +28,8 @@ eureka:
     fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8089/eureka/
+okta:
+  oauth2:
+    issuer: https://dev-12637298.okta.com/oauth2/default
+    audience: api://default
+    groups-claim: groups

@@ -3,8 +3,6 @@ server:
 
 spring.application.name: notification-service
 
-
-
 spring:
   rabbitmq:
     host: localhost
@@ -20,6 +18,21 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+
+notification:
+  exchange: notificationExchange
+  queues:
+    queue1: msgQueue
+    queue2: otpQueue
+  routingKey1: msgRoutingKey
+  routingKey2: otpRoutingKey
+
+
+vonage:
+  api:
+    key:  3816695f
+    secret: 8udXW3G6HAwdesoo
 
 eureka:
   instance.prefer-ip-address: true
