@@ -135,6 +135,7 @@ public class SendTransferService {
                 .clientId(transferRequest.getClientId())
                 .recipientId(transferRequest.getRecipientId())
                 .transferNotification(transferRequest.getTransferNotification())
+                .commissionType(transferRequest.getCommissionType())
                 .build();
 
         if(transferRequest.getTransferType().equals(TransferType.IN_CASH)) {

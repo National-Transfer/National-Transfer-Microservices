@@ -23,7 +23,7 @@ spring:
         - id: agency-service
           uri: lb://agency-service
           predicates:
-            - Path=/api/v1/agencies/**
+            - Path=/agents/**
         - id: account-service
           uri: lb://account-service
           predicates:

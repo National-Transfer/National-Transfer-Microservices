@@ -10,6 +10,8 @@ import com.ensa.kycservice.repositories.ClientRepository;
 import com.ensa.kycservice.repositories.ProspectRepository;
 import com.ensa.kycservice.utils.AccountUtil;
 import com.ensa.kycservice.utils.CustomerProfileUtil;
+import com.okta.sdk.resource.user.User;
+import com.okta.sdk.resource.user.UserBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class ProspectService {
     private final ClientRepository clientRepository;
     private final BeneficiaryRepository beneficiaryRepository;
     private final AccountUtil accountUtil;
+    private final com.okta.sdk.client.Client oktaClient;
 
 
     public Prospect getProspect(String identityNumber){
@@ -82,7 +85,17 @@ public class ProspectService {
 
         // Call Account Microservice to create Account
         accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).accountType("CLIENT").build());
-
+        // create okta user
+        User clientOkta = UserBuilder.instance()
+                .setGroups("00ge70iv1oiDe46dg5d7") // AGENT GROUP ID "CLIENT"
+                .setFirstName(clientSaved.getTitle())
+                .setLastName(clientSaved.getFirstName())
+                .setEmail(clientSaved.getEmail())
+                .setActive(true)
+                .setMobilePhone(clientSaved.getPhoneNumber())
+                .buildAndCreate(oktaClient);
+        clientOkta.setProfile(clientOkta.getProfile().setEmployeeNumber(clientSaved.getId().toString()));
+        clientOkta.update();
         return "prospect converted to client successfully";
     }
 }

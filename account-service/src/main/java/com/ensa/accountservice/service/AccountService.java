@@ -27,7 +27,7 @@ public class AccountService {
         return accountRepo.findAccountByAccountCode(accountCode);
     }
 
-    public Optional<Account> getAccountByOwnerId(Long ownerId) {
+    public Optional<Account> getAccountByOwnerId(String ownerId) {
 
         return accountRepo.findAccountByOwnerId(ownerId);
     }
@@ -42,7 +42,7 @@ public class AccountService {
                 .ownerId(account.getOwnerId())
                 .build();
 
-        if(account.getAccountType().equals("AGENT")) {
+        if(account.getAccountType().equals(AccountType.AGENT)) {
             newAccount.setAccountType(AccountType.AGENT);
         }else {
             newAccount.setAccountType(AccountType.CLIENT);
@@ -57,13 +57,13 @@ public class AccountService {
         return Boolean.TRUE;
     }
 
-    public Boolean deleteAccountByOwnerId(Long ownerId) {
+    public Boolean deleteAccountByOwnerId(String ownerId) {
         Account account = accountRepo.findAccountByOwnerId(ownerId).orElseThrow( () -> new ResourceNotFoundException("Account doesn't exist"));
         accountRepo.delete(account);
         return Boolean.TRUE;
     }
 
-    public Account deposit(Long ownerId, BigDecimal amount) {
+    public Account deposit(String ownerId, BigDecimal amount) {
         Account account = accountRepo.findAccountByOwnerId(ownerId).orElseThrow( () -> new ResourceNotFoundException("Account doesn't exist"));
         if (amount.compareTo(BigDecimal.ZERO) <= 0 ){
             throw new IllegalStateException("Deposit amount must be greater than zero");
@@ -72,7 +72,7 @@ public class AccountService {
         return accountRepo.save(account);
     }
 
-    public Account withdraw(Long ownerId, BigDecimal amount) {
+    public Account withdraw(String ownerId, BigDecimal amount) {
         Account account = accountRepo.findAccountByOwnerId(ownerId).orElseThrow( () -> new ResourceNotFoundException("Account doesn't exists"));
         if(amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Withdraw amount must be greater than zero");

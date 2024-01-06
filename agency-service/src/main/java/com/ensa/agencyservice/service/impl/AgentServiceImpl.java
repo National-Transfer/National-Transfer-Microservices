@@ -1,5 +1,6 @@
 package com.ensa.agencyservice.service.impl;
 
+import com.ensa.agencyservice.dto.enums.AccountType;
 import com.ensa.agencyservice.dto.request.AccountRequestDto;
 import com.ensa.agencyservice.dto.request.AgentRequestDto;
 import com.ensa.agencyservice.dto.response.AccountResponseDto;
@@ -16,11 +17,14 @@ import com.ensa.agencyservice.service.http.AccountFeignClient;
 import com.okta.sdk.client.Client;
 import com.okta.sdk.resource.user.User;
 import com.okta.sdk.resource.user.UserBuilder;
+import com.okta.sdk.resource.user.UserProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -43,22 +47,23 @@ public class AgentServiceImpl implements AgentService {
         AccountResponseDto accountResponseDto = accountFeignClient.createAccount(
                 AccountRequestDto.builder()
                         .ownerId(agentEntity.getId().toString())
+                        .accountType(AccountType.AGENT.toString())
                         .build()
         ).getBody();
 
         if (accountResponseDto == null) {
             throw new ResourceNotCreatedException("agent not created ! try again later .");
         }
-        
         User agentOkta = UserBuilder.instance()
-                .setGroups("00ge6s3a1wYF8RD3g5d7") // AGENT GROUP ID
+                .setGroups("00ge6s3a1wYF8RD3g5d7") // AGENT GROUP ID "AGENT"
                 .setFirstName(agentEntity.getFirstName())
                 .setLastName(agentEntity.getLastName())
                 .setEmail(agentEntity.getEmail())
                 .setActive(true)
                 .setMobilePhone(agentEntity.getPhoneNumber())
                 .buildAndCreate(client);
-
+        agentOkta.setProfile(agentOkta.getProfile().setEmployeeNumber(agentEntity.getId().toString()));
+        agentOkta.update();
         return AgentMapper.INSTANCE.toResponseDto(agentRepository.save(agentEntity), accountResponseDto);
     }
 
@@ -78,7 +83,41 @@ public class AgentServiceImpl implements AgentService {
     @Override
     public void deleteAgentById(String id) {
         AgentEntity agentEntity = agentRepository.findById(UUID.fromString(id)).orElseThrow(() -> new ResourceNotFoundException("agent with id: " + id + "not found"));
+        User oktaClientUser =  client.getUser(agentEntity.getEmail());
+        oktaClientUser.deactivate();
+        oktaClientUser.delete(true);
         accountFeignClient.deleteAccountByOwnerId(agentEntity.getId().toString());
         agentRepository.deleteById(UUID.fromString(id));
+    }
+
+    @Override
+    public AgentResponseDto updateAgentById(String id, AgentRequestDto agentRequestDto) {
+        AgentEntity agentEntity = agentRepository.findById(UUID.fromString(id)).orElseThrow(() -> new ResourceNotFoundException("agent with id: " + id + "not found"));
+        SalesPointEntity salesPointEntity = salesPointRepository.findById(UUID.fromString(agentRequestDto.getSalesPointId())).orElseThrow(() -> new ResourceNotFoundException("salesPoint with id: "+ agentRequestDto.getSalesPointId()+" not found"));
+
+        AgentMapper.INSTANCE.updateEntity(agentRequestDto, agentEntity);
+        agentEntity.setSalesPoint(salesPointEntity);
+        User oktaAgentUser = client.getUser(agentEntity.getEmail());
+        updateAgentProfile(oktaAgentUser.getProfile(), agentRequestDto);
+
+        AgentEntity savedAgent = agentRepository.save(agentEntity);
+        // update okta agent
+        oktaAgentUser.update();
+        return AgentMapper.INSTANCE.toResponseDto(savedAgent);
+    }
+
+    private void updateAgentProfile(UserProfile profile, AgentRequestDto agentRequestDto){
+        if (agentRequestDto.getFirstName() != null) {
+            profile.setFirstName(agentRequestDto.getFirstName());
+        }
+        if (agentRequestDto.getFirstName() != null) {
+            profile.setLastName(agentRequestDto.getLastName());
+        }
+        if (agentRequestDto.getPhoneNumber() != null) {
+            profile.setMobilePhone(agentRequestDto.getPhoneNumber());
+        }
+        if (agentRequestDto.getEmail() != null) {
+            profile.setEmail(agentRequestDto.getEmail());
+        }
     }
 }

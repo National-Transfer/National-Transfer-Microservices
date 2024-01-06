@@ -1,6 +1,7 @@
 package com.ensa.agencyservice.dto.request;
 
 
+import com.ensa.agencyservice.dto.enums.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +13,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class AccountRequestDto {
     private String ownerId;
-    // private AccountType accountType; "AGENT", "CLIENT"
+    private String accountType;
 }

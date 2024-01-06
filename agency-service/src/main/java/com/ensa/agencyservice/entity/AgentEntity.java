@@ -18,7 +18,6 @@ import java.util.UUID;
 @Entity
 public class AgentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String firstName;

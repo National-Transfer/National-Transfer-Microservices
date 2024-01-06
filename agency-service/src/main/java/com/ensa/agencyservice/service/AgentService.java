@@ -11,4 +11,5 @@ public interface AgentService {
     List<AgentResponseDto> getAllAgents();
     AgentResponseDto getAgentById(String id);
     void deleteAgentById(String id);
+    AgentResponseDto updateAgentById(String id, AgentRequestDto agentRequestDto);
 }

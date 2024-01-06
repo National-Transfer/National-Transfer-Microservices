@@ -16,11 +16,6 @@ spring:
     show-sql: true
   jackson:
     default-property-inclusion: NON_NULL
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            jwk-set-uri: https://dev-69493338.okta.com/oauth2/default/v1/keys
 
 
 

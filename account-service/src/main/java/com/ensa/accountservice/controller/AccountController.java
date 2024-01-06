@@ -3,6 +3,7 @@ package com.ensa.accountservice.controller;
 import com.ensa.accountservice.entity.Account;
 import com.ensa.accountservice.service.AccountService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("api/V1/accounts")
+@RequestMapping("api/v1/accounts")
 @RestController
 @AllArgsConstructor
 public class AccountController {
@@ -30,17 +31,17 @@ public class AccountController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public ResponseEntity<Optional<Account>> getAccountByOwnerId(@PathVariable Long ownerId) {
+    public ResponseEntity<Optional<Account>> getAccountByOwnerId(@PathVariable String ownerId) {
         return ResponseEntity.ok(accountService.getAccountByOwnerId(ownerId));
     }
 
     @PostMapping("/recievedTransfer/{ownerId}")
-    public ResponseEntity<Account> recievedTransfer(@PathVariable Long ownerId , @RequestBody BigDecimal amount){
+    public ResponseEntity<Account> recievedTransfer(@PathVariable String ownerId , @RequestBody BigDecimal amount){
         return ResponseEntity.ok(accountService.deposit(ownerId, amount));
     }
 
     @PostMapping("/sendTransfer/{ownerId}")
-    public ResponseEntity<Account> emittedTransfer(@PathVariable Long ownerId , @RequestBody BigDecimal amount){
+    public ResponseEntity<Account> emittedTransfer(@PathVariable String ownerId , @RequestBody BigDecimal amount){
         return ResponseEntity.ok(accountService.withdraw(ownerId, amount));
     }
 
@@ -54,8 +55,8 @@ public class AccountController {
         return ResponseEntity.ok(accountService.deleteAccountByAccountCode(accountCode));
     }
 
-    @DeleteMapping("/{ownerId}")
-    public ResponseEntity<Boolean> deleteAccountByOwnerId(@PathVariable Long ownerId) {
+    @DeleteMapping("/owner/{ownerId}")
+    public ResponseEntity<Boolean> deleteAccountByOwnerId(@PathVariable String ownerId) {
         return ResponseEntity.ok(accountService.deleteAccountByOwnerId(ownerId));
     }
 }

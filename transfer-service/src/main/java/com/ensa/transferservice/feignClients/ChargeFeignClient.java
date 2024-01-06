@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "charge-service")
 public interface ChargeFeignClient {
 
-    @PostMapping("/api/charge")
+    @PostMapping("/api/vi/charge")
     ResponseEntity<TransferAmountResponse> getCommissionTotal(@RequestBody TransferAmountRequest transferAmountRequest);
 
 }
