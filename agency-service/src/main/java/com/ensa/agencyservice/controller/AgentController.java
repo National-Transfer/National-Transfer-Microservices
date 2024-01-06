@@ -39,5 +39,10 @@ public class AgentController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AgentResponseDto> updateAgentById(@PathVariable String id, @RequestBody AgentRequestDto agentRequestDto){
+        return ResponseEntity.ok(agentService.updateAgentById(id, agentRequestDto));
+    }
+
 
 }

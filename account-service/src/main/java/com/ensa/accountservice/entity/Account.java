@@ -25,7 +25,7 @@ public class Account {
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-    private Long ownerId;
+    private String ownerId;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 

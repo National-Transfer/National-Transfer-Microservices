@@ -18,7 +18,10 @@ public interface AgentMapper {
     @Mapping(source = "account", target = "account")
     @Mapping(source = "agentEntity.salesPoint", target = "salesPoint")
     @Mapping(source = "agentEntity.id", target = "id")
+    @Mapping(source = "agentEntity.createdAt", target = "createdAt")
     AgentResponseDto toResponseDto(AgentEntity agentEntity, AccountResponseDto account);
+
+    AgentResponseDto toResponseDto(AgentEntity agentEntity);
 
     void updateEntity(AgentRequestDto agentRequestDto, @MappingTarget AgentEntity agentEntity);
 }

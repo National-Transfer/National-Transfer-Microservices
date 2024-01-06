@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface AccountRepo extends JpaRepositoryImplementation<Account, UUID> {
     public Optional<Account> findAccountByAccountCode(UUID accountCode);
 
-    public Optional<Account> findAccountByOwnerId(Long ownerId);
+    public Optional<Account> findAccountByOwnerId(String ownerId);
 
     public Boolean existsAccountByAccountCode(UUID accountCode);
-    public Boolean existsAccountByOwnerId(Long ownerId);
+    public Boolean existsAccountByOwnerId(String ownerId);
 
 }

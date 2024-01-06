@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient("account-service")
 public interface AccountFeignClient {
-    @PostMapping("/api/v1/accounts")
+    @PostMapping("/api/v1/accounts/createAccount")
     ResponseEntity<AccountResponseDto> createAccount(@RequestBody AccountRequestDto accountRequestDto);
 
-    @GetMapping("/api/v1/accounts/{ownerId}")
+    @GetMapping("/api/v1/accounts/owner/{ownerId}")
     ResponseEntity<AccountResponseDto> getAccountByOwnerId(@PathVariable String ownerId);
 
-    @DeleteMapping("/api/v1/accounts/{ownerId}")
+    @DeleteMapping("/api/v1/accounts/owner/{ownerId}")
     ResponseEntity<Void> deleteAccountByOwnerId(@PathVariable String ownerId);
 }

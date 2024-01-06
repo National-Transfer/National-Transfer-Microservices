@@ -11,6 +11,6 @@ public class AppConfig {
     @Bean
     @LoadBalanced
     public WebClient.Builder webClient(){
-        return WebClient.builder().baseUrl("http://account-service/api/V1/accounts");
+        return WebClient.builder().baseUrl("http://account-service/api/v1/accounts");
     }
 }
