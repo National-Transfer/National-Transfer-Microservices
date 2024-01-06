@@ -8,6 +8,7 @@ import com.ensa.transferservice.dto.requests.ValidateTransferRequest;
 import com.ensa.transferservice.dto.responses.SironCheckResponse;
 import com.ensa.transferservice.dto.responses.TransferAmountResponse;
 import com.ensa.transferservice.entities.Transfer;
+import com.ensa.transferservice.enums.MsgType;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.enums.TransferType;
 import com.ensa.transferservice.exceptions.InvalidTransferException;
@@ -150,7 +151,10 @@ public class SendTransferService {
 
             NotificationRequest request = NotificationRequest.builder()
                     .phone(transferRequest.getPhone())
+                    .transferReference(transfer.getReference())
+                    .transferAmount(transfer.getTransferAmount())
                     .code(otp)
+                    .msgType(MsgType.OTP.toString())
                     .build();
 
             //send otp notification to client
@@ -167,17 +171,20 @@ public class SendTransferService {
         Transfer transfer = transferRepo.findByReference(request.getReference()).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
+        String pin = generatePinCode();
 
         //transfer already saved and here we only check on the notification
         if(transfer.getTransferType().equals(TransferType.IN_CASH)){
             if(transfer.getTransferNotification()) {
-                String pin = generatePinCode();
+                transfer.setPinCode(pin);
+
                 //msg to recipient with info
                 NotificationRequest notificationRequest = NotificationRequest.builder()
                         .phone(request.getRecipientPhone())
                         .transferReference(transfer.getReference())
                         .code(pin)
                         .transferAmount(transfer.getTransferAmount())
+                        .msgType(MsgType.To_RECIPIENT.toString())
                         .transferState(transfer.getTransferState().toString())
                         .build();
                 rabbitTemplate.convertAndSend(exchangeName, "msgRoutingKey", notificationRequest);
@@ -198,12 +205,16 @@ public class SendTransferService {
             transfer.setTransferState(TransferState.TO_SERVE);
 
             if(transfer.getTransferNotification()) {
+                transfer.setPinCode(pin);
+
                 //msg to recipient with info
                 NotificationRequest notificationRequest = NotificationRequest.builder()
                         .phone(request.getRecipientPhone())
+                        .code(pin)
                         .transferReference(transfer.getReference())
                         .transferAmount(transfer.getTransferAmount())
                         .transferState(transfer.getTransferState().toString())
+                        .msgType(MsgType.To_RECIPIENT.toString())
                         .build();
 
                 rabbitTemplate.convertAndSend(exchangeName ,"msgRoutingKey", notificationRequest);
@@ -216,5 +227,4 @@ public class SendTransferService {
         throw new InvalidTransferException("Invalid transfer type !");
 
     }
-
 }

@@ -4,6 +4,7 @@ import com.ensa.transferservice.dto.requests.NotificationRequest;
 import com.ensa.transferservice.dto.requests.OperationRequest;
 import com.ensa.transferservice.dto.requests.TransferRestitutionRequest;
 import com.ensa.transferservice.entities.Transfer;
+import com.ensa.transferservice.enums.MsgType;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.exceptions.InvalidTransferException;
 import com.ensa.transferservice.exceptions.ResourceNotFoundException;
@@ -91,8 +92,10 @@ public class TransferOperationService {
             NotificationRequest request = NotificationRequest.builder()
                     .phone(operationRequest.getClientPhone())
                     .code(otp)
+                    .transferAmount(transfer.getTransferAmount())
                     .transferState(transfer.getTransferState().toString())
                     .transferReference(transfer.getReference())
+                    .msgType(MsgType.OTP.toString())
                     .build();
 
             //send otp notification to client
@@ -150,6 +153,8 @@ public class TransferOperationService {
             NotificationRequest notificationRequest = NotificationRequest.builder()
                     .phone(phone)
                     .transferReference(transfer.getReference())
+                    .transferAmount(transfer.getTransferAmount())
+                    .msgType(MsgType.TO_CLIENT.toString())
                     .transferState(transfer.getTransferState().toString())
                     .build();
             rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);

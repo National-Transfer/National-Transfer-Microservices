@@ -47,6 +47,11 @@ public class TransferService {
 
         return transfers;
     }
+
+    public List<Transfer> getAllTransfersForClient(String clientId){
+        return transferRepo.findByClientId(clientId);
+    }
+
     public String generateOtpForSms(){
 
         return String.valueOf(new Random().nextInt(90000) + 10000);

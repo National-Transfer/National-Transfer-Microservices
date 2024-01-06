@@ -42,7 +42,6 @@
     </properties>
     <dependencies>
 
-
         <!-- lombok dependencies should not end up on classpath -->
         <dependency>
             <groupId>org.projectlombok</groupId>

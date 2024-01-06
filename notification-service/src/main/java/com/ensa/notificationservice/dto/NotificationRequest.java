@@ -17,4 +17,5 @@ public class NotificationRequest {
     private String code;
     private BigDecimal transferAmount;
     private String transferState;
+    private String msgType;
 }

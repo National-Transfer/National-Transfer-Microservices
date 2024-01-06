@@ -29,6 +29,11 @@ notification:
   routingKey2: otpRoutingKey
 
 
+vonage:
+  api:
+    key:  3816695f
+    secret: 8udXW3G6HAwdesoo
+
 eureka:
   instance.prefer-ip-address: true
   client:
