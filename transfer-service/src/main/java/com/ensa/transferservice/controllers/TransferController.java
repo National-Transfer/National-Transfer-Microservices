@@ -58,7 +58,7 @@ public class TransferController {
         );
     }
 
-    @DeleteMapping("/saveAllTransfers")
+    @DeleteMapping("/deleteAllTransfers")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> deleteAllTransfers(@RequestBody List<Transfer> transfers)
     {

@@ -1,6 +1,7 @@
 package com.ensa.kycservice.dto;
 
 import com.ensa.kycservice.entities.Client;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,6 @@ public class ClientResponse extends CustomerProfileDto{
       this.accountResponseDto = accountResponseDto;
    }
 
+   @JsonProperty("account")
    private AccountResponseDto accountResponseDto;
 }

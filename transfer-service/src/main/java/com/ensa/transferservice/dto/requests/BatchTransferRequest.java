@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class BatchTransferRequest {
 
-    List<Transfer> transferToValidate;
+    List<Transfer> transfersToValidate;
     List<Transfer> transfersToServe;
 
 }

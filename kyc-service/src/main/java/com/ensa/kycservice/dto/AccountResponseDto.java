@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 public class AccountResponseDto {
     private BigDecimal balance ;
-    private String id;
+    private String accountCode;
     private String ownerId;
 
 }

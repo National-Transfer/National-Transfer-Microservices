@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -32,13 +33,19 @@ public class TransferService {
         );
     }
 
-    public BatchTransferRequest getAllTransfersForBatch(){
+    public List<Transfer> getAllTransfersForBatch(){
 
-        List<Transfer> transfersToValidate = transferRepo.findByTransferState(TransferState.TO_VALIDATE);
+        List<Transfer> transfers = new ArrayList<>();
 
-        List<Transfer> transfersToServe = transferRepo.findByTransferState(TransferState.TO_SERVE);
+        transfers.addAll(transferRepo.findByTransferState(TransferState.TO_VALIDATE));
 
-        return new BatchTransferRequest(transfersToValidate, transfersToServe);
+        transfers.addAll(transferRepo.findByTransferState(TransferState.TO_SERVE));
+
+//        List<Transfer> transfersToValidate = transferRepo.findByTransferState(TransferState.TO_VALIDATE);
+//
+//        List<Transfer> transfersToServe = transferRepo.findByTransferState(TransferState.TO_SERVE);
+
+        return transfers;
     }
     public String generateOtpForSms(){
 
