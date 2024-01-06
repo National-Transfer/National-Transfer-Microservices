@@ -1,5 +1,6 @@
 package com.ensa.transferservice.dto.requests;
 
+import com.ensa.transferservice.enums.CommissionType;
 import com.ensa.transferservice.enums.TransferReason;
 import com.ensa.transferservice.enums.TransferType;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class TransferRequest {
     private Boolean transferNotification;
     private String recipientId;
     private TransferType transferType;
+    private CommissionType commissionType;
 
 
 }

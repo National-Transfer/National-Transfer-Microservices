@@ -1,5 +1,6 @@
 package com.ensa.transferservice.dto.requests;
 
+import com.ensa.transferservice.enums.CommissionType;
 import com.ensa.transferservice.enums.TransferType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +16,11 @@ import java.math.BigDecimal;
 public class TransferAmountRequest {
 
    private BigDecimal amount;
-   private String CommissionType;
    private String clientId;
    private String agentId;
    private Boolean transferNotification;
    private TransferType transferType;
+   private CommissionType commissionType;
+
+
 }
