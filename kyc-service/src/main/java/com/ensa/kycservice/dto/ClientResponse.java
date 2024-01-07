@@ -1,11 +1,15 @@
 package com.ensa.kycservice.dto;
 
+import com.ensa.kycservice.entities.Beneficiary;
 import com.ensa.kycservice.entities.Client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +35,11 @@ public class ClientResponse extends CustomerProfileDto{
       this.phoneNumber = client.getPhoneNumber();
       this.email = client.getEmail();
       this.accountResponseDto = accountResponseDto;
+      this.beneficiaries = client.getBeneficiaries();
    }
 
    @JsonProperty("account")
    private AccountResponseDto accountResponseDto;
+
+   private Set<Beneficiary> beneficiaries;
 }

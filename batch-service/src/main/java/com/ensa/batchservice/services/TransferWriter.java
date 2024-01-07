@@ -20,12 +20,14 @@ public class TransferWriter implements ItemWriter<TransferDto> {
 
     @Override
     public void write (Chunk<? extends TransferDto> chunk) throws Exception {
+        System.out.println("here in writer");
         List<TransferDto> itemsToSave = new ArrayList<>();
         List<TransferDto> idsToDelete = new ArrayList<>();
 
         for (TransferDto item : chunk) {
             switch (item.getAction()) {
                 case "update":
+                    item.setTransferState("BLOCKED");
                     itemsToSave.add(item);
                     break;
                 case "delete":

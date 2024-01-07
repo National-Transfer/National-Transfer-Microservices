@@ -1,6 +1,7 @@
 package com.ensa.kycservice.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(exclude = {"beneficiaries"}, callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
@@ -39,5 +40,6 @@ public class Client extends CustomerProfile{
     }
 
     @OneToMany(mappedBy = "client")
+    @JsonManagedReference
     private Set<Beneficiary> beneficiaries;
 }

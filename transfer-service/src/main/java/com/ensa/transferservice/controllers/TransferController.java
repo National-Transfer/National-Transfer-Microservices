@@ -5,6 +5,7 @@ import com.ensa.transferservice.dto.responses.ClientResponse;
 import com.ensa.transferservice.dto.responses.RecipientResponse;
 import com.ensa.transferservice.entities.Transfer;
 import com.ensa.transferservice.enums.TransferState;
+import com.ensa.transferservice.repositories.TransferRepo;
 import com.ensa.transferservice.services.ReceiveTransferService;
 import com.ensa.transferservice.services.SendTransferService;
 import com.ensa.transferservice.services.TransferOperationService;
@@ -23,12 +24,23 @@ import java.util.List;
 @RequestMapping("/api/v1/transfer")
 public class TransferController {
 
+    private final TransferRepo transferRepo;
     private final TransferService transferService;
     private final SendTransferService sendTransferService;
     private final ReceiveTransferService receiveTransferService;
     private final RabbitTemplate rabbitTemplate;
 
     private final TransferOperationService transferOperationService;
+
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getAllTransfers()
+    {
+        return ResponseEntity.ok(
+                transferRepo.findAll()
+        );
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -51,7 +63,7 @@ public class TransferController {
 
     @GetMapping("/TransfersForBatch")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> getAllTransfersForBatch()
+    public ResponseEntity<List<Transfer>> getAllTransfersForBatch()
     {
         return ResponseEntity.ok(
                 transferService.getAllTransfersForBatch()

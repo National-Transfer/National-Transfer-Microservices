@@ -31,7 +31,11 @@ public class BeneficiaryService {
                 .phoneNumber(beneficiaryRequest.getPhoneNumber())
                 .client(client)
                 .build();
-        return beneficiaryRepository.save(beneficiary);
+
+        client.getBeneficiaries().add(beneficiary);
+        clientRepository.save(client);
+
+        return beneficiary;
     }
 
     public Beneficiary saveBeneficiaryForProspect(Long prospectId, BeneficiaryRequest beneficiaryRequest){
@@ -43,7 +47,14 @@ public class BeneficiaryService {
                 .prospect(prospect)
                 .build();
 
+<<<<<<< HEAD
+        prospect.getBeneficiaries().add(beneficiary);
+        prospectRepository.save(prospect);
+
+        return beneficiary;
+=======
         return beneficiaryRepository.save(beneficiary);
+>>>>>>> f59c017d22b4369fb6245b239806423bfe5f3d0b
     }
 
     public List<Beneficiary> getBeneficiariesForClient(Long clientId){
