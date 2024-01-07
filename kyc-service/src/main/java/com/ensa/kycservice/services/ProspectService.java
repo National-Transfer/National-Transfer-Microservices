@@ -33,12 +33,8 @@ public class ProspectService {
     private final com.okta.sdk.client.Client oktaClient;
 
 
-<<<<<<< HEAD
     @Transactional
     public Prospect getProspect(String identityNumber){
-=======
-    public Prospect getProspect(String identityNumber) {
->>>>>>> f59c017d22b4369fb6245b239806423bfe5f3d0b
         return prospectRepository.findByIdentityNumber(identityNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Prospect not found with identity number: " + identityNumber));
     }
@@ -77,18 +73,10 @@ public class ProspectService {
         Client client = new Client(prospect);
         if (prospect.getBeneficiaries() != null) {
             client.setBeneficiaries(new HashSet<>(prospect.getBeneficiaries()));
-            List<Beneficiary> beneficiaries = client.getBeneficiaries().stream().map(beneficiary -> {
+            client.getBeneficiaries().forEach(beneficiary -> {
                 beneficiary.setProspect(null);
                 beneficiary.setClient(client);
-<<<<<<< HEAD
-                client.getBeneficiaries().add(beneficiary);
             });
-=======
-                return beneficiary;
-            }).toList();
-            System.out.println(beneficiaries);
-            beneficiaryRepository.saveAll(beneficiaries);
->>>>>>> f59c017d22b4369fb6245b239806423bfe5f3d0b
         }
         Client clientSaved = clientRepository.save(client);
         prospectRepository.delete(prospect);
