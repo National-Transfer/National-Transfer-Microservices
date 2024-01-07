@@ -16,5 +16,6 @@ public class ValidateTransferRequest {
     private String otp;
     @NotNull
     @Pattern(regexp = "(^$|[0-9]{10})")
-    private String recipientPhone;
+    private String phone;
+    private String recipientId;
 }

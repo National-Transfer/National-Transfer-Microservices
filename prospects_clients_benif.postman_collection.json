@@ -27,14 +27,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8091/kyc/api/v1/clients/5",
+					"raw": "http://localhost:8084/api/v1/clients/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8091",
+					"port": "8084",
 					"path": [
-						"kyc",
 						"api",
 						"v1",
 						"clients",
@@ -87,7 +86,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnd2U2ZGd0pndTYwbHFBeHZZMlVGY1o0cXE0bmJoYi1ZbG41UUx1eEJzRTQiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1NzgxODcsImV4cCI6MTcwNDU4MTc4NywiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTc4MTg0LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.vdjHB-WfryZjKV5-hsduC0sC8L36VKvU3tb4bwonqBtJMOW-L6kFEDyt7hXl46_kzIVw_wXHzqUWAOfYqIAwUNPQpq2bjX4_Ce0j2mjBmVvRvQB1MwBLuLW5lfNq3S9gnH2YifWyDxqNxiZd_T0U2EDEryHwVA2QXjSEJdcrt1syIjbn2jcXEaYQk0UMBYWS4yvZxgimBPPZhg7JHR3E_fwUOWE3CeNdkuCYnrCq_-anP2UFO7LGX-Pgfzq9l_3Vy8lwXH9swog2suD3gm3kjtADWvXyouut58IM6mVWHZaC9JIwoZ21t9VwQqRoDeVG6YV9GelV51rLtsShDXVvBg",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVaMjdnTnlOZV81NlhxSTN0elU4Q190SVJPdDlLS1lPclZXenA2bkxoalUiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MDU2NTIsImV4cCI6MTcwNDYwOTI1MiwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjA1NjUwLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.oFGyM-zfndo8tn4PXs62UXtiSoS_bn0cYGLWKhdLy2W4BEPvDQLKCb4hn2LOtbtEqU-VLpusJniRaOgpdMCcCmnzeG1Qrd9qKemgRWOJnoqGhAwuLwX1GskWbvs_5CHUzdlvIHI_lK-rBr4lMujFGoAdl1mmjti9hvg7eBrDQbG-qHwluQyKSfp3F0bRXGT6BdfRv-idlvm1lAu6oSnPyBaVOa1VC8klCZcPcO24v8rBZ__whrnv2CRQpYPTnaoWIlbsUuzk8Fbjupszovo6ULDN416qVX_E7Ve0-e1j2jMRNopRMlyig927ATw_SxQyL5RVJZjSoRRkzdhfygDNXQ",
 						"type": "text"
 					}
 				],
@@ -101,7 +100,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8084/api/v1/prospects/1/benificiaries",
+					"raw": "http://localhost:8084/api/v1/beneficiaries/prospect/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -110,9 +109,9 @@
 					"path": [
 						"api",
 						"v1",
-						"prospects",
-						"1",
-						"benificiaries"
+						"beneficiaries",
+						"prospect",
+						"7"
 					]
 				}
 			},
@@ -125,13 +124,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnd2U2ZGd0pndTYwbHFBeHZZMlVGY1o0cXE0bmJoYi1ZbG41UUx1eEJzRTQiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1NzgxODcsImV4cCI6MTcwNDU4MTc4NywiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTc4MTg0LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.vdjHB-WfryZjKV5-hsduC0sC8L36VKvU3tb4bwonqBtJMOW-L6kFEDyt7hXl46_kzIVw_wXHzqUWAOfYqIAwUNPQpq2bjX4_Ce0j2mjBmVvRvQB1MwBLuLW5lfNq3S9gnH2YifWyDxqNxiZd_T0U2EDEryHwVA2QXjSEJdcrt1syIjbn2jcXEaYQk0UMBYWS4yvZxgimBPPZhg7JHR3E_fwUOWE3CeNdkuCYnrCq_-anP2UFO7LGX-Pgfzq9l_3Vy8lwXH9swog2suD3gm3kjtADWvXyouut58IM6mVWHZaC9JIwoZ21t9VwQqRoDeVG6YV9GelV51rLtsShDXVvBg",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVaMjdnTnlOZV81NlhxSTN0elU4Q190SVJPdDlLS1lPclZXenA2bkxoalUiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MDU2NTIsImV4cCI6MTcwNDYwOTI1MiwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjA1NjUwLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.oFGyM-zfndo8tn4PXs62UXtiSoS_bn0cYGLWKhdLy2W4BEPvDQLKCb4hn2LOtbtEqU-VLpusJniRaOgpdMCcCmnzeG1Qrd9qKemgRWOJnoqGhAwuLwX1GskWbvs_5CHUzdlvIHI_lK-rBr4lMujFGoAdl1mmjti9hvg7eBrDQbG-qHwluQyKSfp3F0bRXGT6BdfRv-idlvm1lAu6oSnPyBaVOa1VC8klCZcPcO24v8rBZ__whrnv2CRQpYPTnaoWIlbsUuzk8Fbjupszovo6ULDN416qVX_E7Ve0-e1j2jMRNopRMlyig927ATw_SxQyL5RVJZjSoRRkzdhfygDNXQ",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"yassmine\",\r\n    \"lastName\": \"Hsaini\",\r\n    \"phoneNumber\": \"0612218950\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"reda\",\r\n    \"lastName\": \"himmi\",\r\n    \"phoneNumber\": \"0612218950\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -139,7 +138,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8084/api/v1/prospects/1/benificiaries",
+					"raw": "http://localhost:8084/api/v1/beneficiaries/client/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -148,9 +147,9 @@
 					"path": [
 						"api",
 						"v1",
-						"prospects",
-						"1",
-						"benificiaries"
+						"beneficiaries",
+						"client",
+						"6"
 					]
 				}
 			},
@@ -160,7 +159,27 @@
 			"name": "get prospect",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVaMjdnTnlOZV81NlhxSTN0elU4Q190SVJPdDlLS1lPclZXenA2bkxoalUiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MDU2NTIsImV4cCI6MTcwNDYwOTI1MiwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjA1NjUwLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.oFGyM-zfndo8tn4PXs62UXtiSoS_bn0cYGLWKhdLy2W4BEPvDQLKCb4hn2LOtbtEqU-VLpusJniRaOgpdMCcCmnzeG1Qrd9qKemgRWOJnoqGhAwuLwX1GskWbvs_5CHUzdlvIHI_lK-rBr4lMujFGoAdl1mmjti9hvg7eBrDQbG-qHwluQyKSfp3F0bRXGT6BdfRv-idlvm1lAu6oSnPyBaVOa1VC8klCZcPcO24v8rBZ__whrnv2CRQpYPTnaoWIlbsUuzk8Fbjupszovo6ULDN416qVX_E7Ve0-e1j2jMRNopRMlyig927ATw_SxQyL5RVJZjSoRRkzdhfygDNXQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8084/api/v1/prospects/C98765432",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"prospects",
+						"C98765432"
+					]
+				}
 			},
 			"response": []
 		},
@@ -168,23 +187,92 @@
 			"name": "get client",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVaMjdnTnlOZV81NlhxSTN0elU4Q190SVJPdDlLS1lPclZXenA2bkxoalUiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MDU2NTIsImV4cCI6MTcwNDYwOTI1MiwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjA1NjUwLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.oFGyM-zfndo8tn4PXs62UXtiSoS_bn0cYGLWKhdLy2W4BEPvDQLKCb4hn2LOtbtEqU-VLpusJniRaOgpdMCcCmnzeG1Qrd9qKemgRWOJnoqGhAwuLwX1GskWbvs_5CHUzdlvIHI_lK-rBr4lMujFGoAdl1mmjti9hvg7eBrDQbG-qHwluQyKSfp3F0bRXGT6BdfRv-idlvm1lAu6oSnPyBaVOa1VC8klCZcPcO24v8rBZ__whrnv2CRQpYPTnaoWIlbsUuzk8Fbjupszovo6ULDN416qVX_E7Ve0-e1j2jMRNopRMlyig927ATw_SxQyL5RVJZjSoRRkzdhfygDNXQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8084/api/v1/clients/C98765432",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"C98765432"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "convert prospect to client",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVaMjdnTnlOZV81NlhxSTN0elU4Q190SVJPdDlLS1lPclZXenA2bkxoalUiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MDU2NTIsImV4cCI6MTcwNDYwOTI1MiwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjA1NjUwLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.oFGyM-zfndo8tn4PXs62UXtiSoS_bn0cYGLWKhdLy2W4BEPvDQLKCb4hn2LOtbtEqU-VLpusJniRaOgpdMCcCmnzeG1Qrd9qKemgRWOJnoqGhAwuLwX1GskWbvs_5CHUzdlvIHI_lK-rBr4lMujFGoAdl1mmjti9hvg7eBrDQbG-qHwluQyKSfp3F0bRXGT6BdfRv-idlvm1lAu6oSnPyBaVOa1VC8klCZcPcO24v8rBZ__whrnv2CRQpYPTnaoWIlbsUuzk8Fbjupszovo6ULDN416qVX_E7Ve0-e1j2jMRNopRMlyig927ATw_SxQyL5RVJZjSoRRkzdhfygDNXQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8084/api/v1/prospects/convert/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"prospects",
+						"convert",
+						"7"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "add client",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Ms.\",\r\n    \"firstName\": \"yassmine\",\r\n    \"identityType\": \"Driver's License\",\r\n    \"countryOfIssue\": \"Canada\",\r\n    \"identityNumber\": \"CEE555426\",\r\n    \"identityValidity\": \"2024-06-30\",\r\n    \"dateOfBirth\": \"1985-08-15\",\r\n    \"profession\": \"Architect\",\r\n    \"nationality\": \"Moroccan\",\r\n    \"countryOfAddress\": \"Canada\",\r\n    \"address\": \"456 Elm Street, Toronto\",\r\n    \"city\": \"Toronto\",\r\n    \"phoneNumber\": \"+11234567890\",\r\n    \"email\": \"yassmina49@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					]
+				}
 			},
 			"response": []
 		}

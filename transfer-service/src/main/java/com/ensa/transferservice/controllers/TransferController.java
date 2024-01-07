@@ -123,12 +123,12 @@ public class TransferController {
                 sendTransferService.issueTransfer(transferRequest)
         );
     }
-    @PostMapping("/validateTransfer")
+    @PostMapping("/validateTransferByWallet")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> validateTransfer(@RequestBody ValidateTransferRequest request)
+    public ResponseEntity<?> validateTransferByWallet(@RequestBody ValidateTransferRequest request)
     {
         return ResponseEntity.ok(
-                sendTransferService.validateTransfer(request)
+                sendTransferService.validateTransferByWallet(request)
         );
     }
     @PostMapping("/recipientSiron")
@@ -155,6 +155,21 @@ public class TransferController {
     {
         return ResponseEntity.ok(
                 receiveTransferService.serveTransferCash(request)
+        );
+    }
+
+    @PostMapping("/serveTransferToWallet")
+    public ResponseEntity<?> serveTransferToWallet(@RequestBody ServeTransferRequest request)
+    {
+        return ResponseEntity.ok(
+                receiveTransferService.serveTransferToWallet(request)
+        );
+    }
+
+    @PostMapping("/validateTransferToWallet")
+    public ResponseEntity<Transfer> validateToServeTransfer(@RequestBody ValidateTransferRequest validateTransferRequest){
+        return ResponseEntity.ok(
+                receiveTransferService.validateTransferToWallet(validateTransferRequest)
         );
     }
 
