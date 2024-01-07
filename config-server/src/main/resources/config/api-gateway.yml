@@ -15,10 +15,30 @@ spring:
             allowedOrigins: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
+#            allowCredentials: true
+            add-to-simple-url-handler-mapping: true
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+#      routes:
+#        - id: agency-service
+#          uri: lb://agency-service
+#          predicates:
+#            - Path=/agency-service/**
+#          filters:
+#            - AddResponseHeader=Access-Control-Allow-Origin, *
+#            - RewritePath=/agency-service/(?<segment>.*), /api/v1/$\{segment}
+#      default-filters:
+#        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+#      routes:
+#        - id: agency-service
+#          uri: lb://agency-service
+#          predicates:
+#            - Path=/agency-service/**
+#          filters:
+#            - AddResponseHeader=Access-Control-Allow-Origin, *
+#            - RewritePath=/foo_service/(?<segment>.*), /$\{segment}
 #      routes:
 #        - id: agency-service
 #          uri: lb://agency-service
