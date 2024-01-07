@@ -44,6 +44,7 @@ public class Transfer {
     @Enumerated(EnumType.STRING)
     private CommissionType commissionType;
 
+    @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate transferDate;
 

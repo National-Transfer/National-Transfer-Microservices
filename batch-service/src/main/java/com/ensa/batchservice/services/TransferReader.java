@@ -27,7 +27,7 @@ public class TransferReader implements ItemReader<TransferDto> {
     @Override
     public TransferDto read () throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         System.out.println("here");
-        if (transferIterator == null || !transferIterator.hasNext()) {
+        if (transferIterator == null) {
             ResponseEntity<List<TransferDto>> response = feignClient.getAllTransfersForBatch();
             System.out.println("Response Status: " + response.getStatusCode());
             System.out.println("Response Body: " + response.getBody());
@@ -38,6 +38,11 @@ public class TransferReader implements ItemReader<TransferDto> {
             }
             transferIterator = transfers.iterator();
         }
-        return transferIterator.hasNext() ? transferIterator.next() : null;
+        if (transferIterator.hasNext()){
+            return transferIterator.next();
+        } else {
+            transferIterator = null;
+            return null;
+        }
     }
 }

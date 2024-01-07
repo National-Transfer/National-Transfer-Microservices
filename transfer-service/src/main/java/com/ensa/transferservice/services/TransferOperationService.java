@@ -40,7 +40,7 @@ public class TransferOperationService {
         if(transfer.getTransferState() == TransferState.BLOCKED)
             throw new InvalidTransferException("Transfer blocked");
 
-        if(transfer.getTransferState() == TransferState.TO_SERVE && transfer.getTransferDate().toLocalDate().isEqual(LocalDate.now()) ){
+        if(transfer.getTransferState() == TransferState.TO_SERVE && transfer.getTransferDate().isEqual(LocalDate.now()) ){
 
             transfer.setTransferState(TransferState.REVERSED);
             accountFeignClient.updateAccountBalancePlus(transfer.getAgentId(), transfer.getTransferAmount());

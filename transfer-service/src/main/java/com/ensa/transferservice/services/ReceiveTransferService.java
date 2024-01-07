@@ -1,8 +1,8 @@
 package com.ensa.transferservice.services;
 
 import com.ensa.transferservice.dto.requests.ServeTransferRequest;
+import com.ensa.transferservice.dto.requests.ValidateTransferRequest;
 import com.ensa.transferservice.dto.responses.AccountResponse;
-import com.ensa.transferservice.dto.requests.NotificationRequest;
 import com.ensa.transferservice.entities.Transfer;
 import com.ensa.transferservice.enums.MsgType;
 import com.ensa.transferservice.enums.TransferState;
@@ -15,13 +15,13 @@ import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +43,7 @@ public class ReceiveTransferService {
     @Value("${notification.routingKey2}")
     private String otpRoutingKey;
 
-    private AccountResponse getAccount (TransferType transferType, String clientId, String agentId) {
+    private AccountResponse getAccount(TransferType transferType, String clientId, String agentId) {
         String id = switch (transferType) {
             case BY_WALLET -> clientId;
             case IN_CASH -> agentId;
@@ -52,90 +52,84 @@ public class ReceiveTransferService {
         return accountFeignClient.getAccountByOwnerId(id).getBody();
     }
 
-    public Transfer checkTransferToServe(String reference){
+    public Transfer checkTransferToServe(String reference) {
         Transfer transfer = transferRepo.findByReference(reference).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
 
         validateTransferIntegrity(transfer);
 
-        if( (transfer.getTransferState() == TransferState.TO_SERVE && transfer.getExpirationDate().isAfter(LocalDate.now()))
-                || (transfer.getTransferState() == TransferState.UNBLOCKED /* && jour J de debloquage */  ) ) {
+        if ((transfer.getTransferState() == TransferState.TO_SERVE && transfer.getExpirationDate().isAfter(LocalDate.now()))
+                || (transfer.getTransferState() == TransferState.UNBLOCKED /* && jour J de debloquage */)) {
             System.out.println("transfer " + transfer);
             return transfer;
         }
         throw new InvalidTransferException("Error getting Transfer");
     }
 
-
-//    public Transfer serveTransferToWallet(ServeTransferRequest serveRequest) {
-//        Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
-//                () -> new NoSuchElementException("Transfer not found")
-//        );
-//
-////            AccountResponse clientAccount = accountFeignClient.getAccountByOwnerId(transfer.getRecipientId()).getBody();
-//            if(transfer.getTransferType().equals(TransferType.BY_WALLET)) {
-//            //get the wallet
-////            AccountResponse clientAccount = accountFeignClient.getAccountByOwnerId().getBody();
-//
-////            if (clientAccount == null) {
-////                //create an accountWallet
-////                clientAccount = accountFeignClient.createAccount(recipient).getBody();
-////            }
-////            if (clientAccount == null)
-////                throw new IllegalStateException("Error creating account !");
-//
-//            String otp =  transferService.generateOtpForSms();
-//            transfer.setOtpCode(otp);
-//
-            //send otp notification to client
-//            NotificationRequest request = NotificationRequest.builder()
-//                    .phone(client.getPhone())
-//                    .transferState(transfer.getTransferState())
-//                    .transferReference(transfer.getReference())
-//                    .transferAmount(transfer.getTransferAmount())
-//                    .code(otp)
-//                    .msgType(MsgType.OTP)
-//                    .build();
-//
-//            //send otp notification to client
-//            rabbitTemplate.convertAndSend(exchangeName, otpRoutingKey, request);
-//
-//            return transferRepo.save(transfer);
-//        }
-//        return null;
-//    }
-//    public Transfer validateTransfer(ValidateTransferRequest transferRequest){
-//
-//
-//        return null;
-//    }
-
-    public Transfer serveTransferCash( ServeTransferRequest serveRequest ){
+    public Transfer serveTransferCash(ServeTransferRequest serveRequest) {
         Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
-        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Jwt jwt =  (Jwt) authentication.getPrincipal();
-        String receiverAgentId = (String) jwt.getClaims().get("userId");
 
-        transfer.setTransferState(TransferState.SERVED);
-        if(transfer.getTransferNotification()) {
-            //msg to client with info
-            NotificationRequest notificationRequest = NotificationRequest.builder()
-                    .phone(serveRequest.getPhone())
-                    .transferState(transfer.getTransferState().toString())
-                    .transferReference(transfer.getReference())
-                    .transferAmount(transfer.getTransferAmount())
-                    .msgType(MsgType.TO_CLIENT.toString())
-                    .build();
 
-            rabbitTemplate.convertAndSend(exchangeName, msgRoutingKey, notificationRequest);
+//        Serve transfer in cash and update balance
+        if (transfer.getTransferType().equals(TransferType.IN_CASH)) {
+            JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            String receiverAgentId = (String) jwt.getClaims().get("userId");
+
+            transfer.setTransferState(TransferState.SERVED);
+            if (transfer.getTransferNotification()) {
+                //msg to client with info
+                transferService.sendNotification(serveRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.TO_CLIENT, null);
+            }
+            // //update agentAccount balance
+            accountFeignClient.updateAccountBalanceMinus(receiverAgentId, transfer.getTransferAmount());
         }
-        // //update agentAccount balance
-        accountFeignClient.updateAccountBalanceMinus(receiverAgentId, transfer.getTransferAmount());
         return transferRepo.save(transfer);
     }
+
+    public Transfer serveTransferToWallet(ServeTransferRequest serveRequest) {
+        Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
+                () -> new NoSuchElementException("Transfer not found")
+        );
+
+        if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
+
+            AccountResponse clientAccount = accountFeignClient.getAccountByOwnerId(serveRequest.getClientId()).getBody();
+
+            String otp = transferService.generateOtpForSms();
+            transfer.setOtpCode(otp);
+
+//            send otp notification to client
+            transferService.sendNotification(serveRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.OTP, otp);
+
+            return transferRepo.save(transfer);
+        }
+        return null;
+    }
+
+    public Transfer validateTransferToWallet(ValidateTransferRequest transferRequest) {
+        Transfer transfer = transferRepo.findByReference(transferRequest.getReference()).orElseThrow(
+                () -> new NoSuchElementException("Transfer not found")
+        );
+        if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
+            if (!transfer.getOtpCode().equals(transferRequest.getOtp()))
+                throw new IllegalArgumentException("Incorrect OTP code !");
+
+            transfer.setTransferState(TransferState.SERVED);
+
+            if (transfer.getTransferNotification()) {
+                //msg to recipient with info
+                transferService.sendNotification(transferRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.TO_RECIPIENT, null);
+            }
+            accountFeignClient.updateAccountBalancePlus(transferRequest.getRecipientId(), transfer.getTransferAmount());
+        }
+
+        return transferRepo.save(transfer);
+    }
+
 
 //    public Transfer serveTransferGAB(String reference, String pinCode){
 //        Transfer transfer = transferRepo.findByReference(reference).orElseThrow(
@@ -171,22 +165,22 @@ public class ReceiveTransferService {
 //    }
 
     private void validateTransferIntegrity(Transfer transfer) {
-        if(transfer.getTransferState() == TransferState.SERVED)
+        if (transfer.getTransferState() == TransferState.SERVED)
             throw new InvalidTransferException("Transfer paid");
 
-        if(transfer.getTransferState() == TransferState.BLOCKED)
+        if (transfer.getTransferState() == TransferState.BLOCKED)
             throw new InvalidTransferException("Transfer blocked");
 
-        if(transfer.getTransferState() == TransferState.REVERSED)
+        if (transfer.getTransferState() == TransferState.REVERSED)
             throw new InvalidTransferException("Transfer reversed");
 
-        if(transfer.getTransferState() == TransferState.RETURNED)
+        if (transfer.getTransferState() == TransferState.RETURNED)
             throw new InvalidTransferException("Transfer returned");
 
-        if(transfer.getTransferState() == TransferState.ESCHEAT)
+        if (transfer.getTransferState() == TransferState.ESCHEAT)
             throw new InvalidTransferException("Transfer deshéré");
 
-        if(transfer.getExpirationDate().isBefore(LocalDate.now()))
+        if (transfer.getExpirationDate().isBefore(LocalDate.now()))
             throw new InvalidTransferException("Transfer expired");
     }
 

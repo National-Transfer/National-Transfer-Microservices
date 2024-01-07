@@ -20,15 +20,15 @@ import java.util.UUID;
 
 public class TransferDto {
 
-
-    private String reference;
-    private BigDecimal transferAmount;
-    private String transferType;
-    private String transferReason;
+    private UUID id;
+//    private String reference;
+//    private BigDecimal transferAmount;
+    //private String transferType;
+//    private String transferReason;
     private String transferState;
     private LocalDateTime transferDate;
     private LocalDate expirationDate;
-    private String clientId;
+//    private String clientId;
 
     @JsonIgnore
     private String action;

@@ -16,13 +16,13 @@ import java.util.List;
 @FeignClient(name = "transfer-service")
 public interface TransferFeignClient {
 
-    @GetMapping("/api/transfer/TransfersForBatch")
+    @GetMapping("/api/v1/transfer/TransfersForBatch")
     ResponseEntity<List<TransferDto>> getAllTransfersForBatch();
 
-    @PostMapping("/api/transfer/saveAllTransfers")
+    @PostMapping("/api/v1/transfer/saveAllTransfers")
     ResponseEntity<List<TransferDto>> saveAllTransfers(@RequestBody List<TransferDto> transfers);
 
-    @DeleteMapping("/api/transfer/deleteAllTransfers")
+    @DeleteMapping("/api/v1/transfer/deleteAllTransfers")
     ResponseEntity<Void> deleteAllTransfers(@RequestBody List<TransferDto> transfers);
 
 }
