@@ -6,19 +6,26 @@ import com.ensa.notificationservice.entities.Notification;
 import com.ensa.notificationservice.repositories.NotificationRepo;
 import com.vonage.client.sms.SmsSubmissionResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class NotificationService {
 
     private final SmsService smsService;
     private final NotificationRepo notificationRepo;
 
     @RabbitListener(queues = "${notification.queues.queue1}")
-    public Notification msgReceiveMessage(NotificationRequest request) {
+    public void msgReceiveMessage(NotificationRequest request) {
         String verificationMsg = null;
+        log.info("ON TOP {}", request);
 
         if ("TO_RECIPIENT".equals(request.getMsgType())) {
             verificationMsg = generateRecipientNotification(request);
@@ -32,21 +39,21 @@ public class NotificationService {
                 verificationMsg = generateOperationsNotification(request, operation);
             }
         }
+        log.info("outside: {}", verificationMsg);
         if (verificationMsg != null) {
-            return generateNotification(request, verificationMsg);
+            log.info("inside {}", verificationMsg);
+            generateNotification(request, verificationMsg);
         }
-        return null;
     }
 
     @RabbitListener(queues = "${notification.queues.queue2}")
-    public Notification otpReceiveMessage(NotificationRequest request) {
+    public void otpReceiveMessage(NotificationRequest request) {
 
         String verificationMsg = generateSmsForOtp(request);
-        return generateNotification(request, verificationMsg);
-
+        generateNotification(request, verificationMsg);
     }
 
-    private Notification generateNotification(NotificationRequest request, String verificationMsg) {
+    private void generateNotification(NotificationRequest request, String verificationMsg) {
         SmsSubmissionResponse response = smsService.sendSMS(request.getPhone(), verificationMsg);
         Notification notification = Notification.builder()
                 .recipientPhone(request.getPhone())
@@ -54,10 +61,10 @@ public class NotificationService {
                 .messageId(response.getMessages().get(0).getId())
                 .responseStatus(response.getMessages().get(0).getStatus().toString())
                 .messagePrice(response.getMessages().get(0).getMessagePrice())
+                .messagePrice(BigDecimal.valueOf(0.15))
                 .errorMessage(response.getMessages().get(0).getErrorText())
                 .build();
-
-        return notificationRepo.save(notification);
+        notificationRepo.save(notification);
     }
 
     private String mapTransferStateToOperation(String transferState) {
@@ -70,7 +77,7 @@ public class NotificationService {
         };
     }
 
-    private String generateSmsForOtp( NotificationRequest request){
+    private String generateSmsForOtp(NotificationRequest request) {
         return "Votre code de confirmation pour le Transfer de la référence " +
                 request.getTransferReference() +
                 " d'un montant de " +
@@ -103,6 +110,6 @@ public class NotificationService {
                 request.getTransferAmount() +
                 " MAD avec la référence " +
                 request.getTransferReference() +
-                " a été "+ operation +". Pour plus d'informations, veuillez contacter notre service client.";
+                " a été " + operation + ". Pour plus d'informations, veuillez contacter notre service client.";
     }
 }

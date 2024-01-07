@@ -14,10 +14,10 @@ import java.math.BigDecimal;
 @FeignClient(name = "account-service")
 public interface AccountFeignClient {
 
-    @GetMapping("/api/v1/accounts/{ownerId}")
+    @GetMapping("/api/v1/accounts/owner/{ownerId}")
     ResponseEntity<AccountResponse> getAccountByOwnerId(@PathVariable String ownerId);
 
-    @PostMapping("/api/v1/accounts/recievedTransfer+/{ownerId}")
+    @PostMapping("/api/v1/accounts/recievedTransfer/{ownerId}")
     ResponseEntity<AccountResponse> updateAccountBalancePlus(@PathVariable String ownerId, @RequestBody BigDecimal amount);
 
     @PostMapping("/api/v1/accounts/sendTransfer/{ownerId}")

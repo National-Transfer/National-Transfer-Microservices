@@ -18,7 +18,6 @@ public class TransferAmountRequest {
     private String clientId;
     private String agentId;
     private Boolean transferNotification;
-    private String transferType;
-    private String CommissionType;
-
+    private TransferType transferType;
+    private CommissionType commissionType;
 }

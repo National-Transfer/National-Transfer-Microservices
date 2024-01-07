@@ -42,6 +42,9 @@ public class AccountService {
                 .ownerId(account.getOwnerId())
                 .build();
 
+        // @TODO
+        newAccount.setBalance(BigDecimal.valueOf(50000));
+        // @TODO
         if(account.getAccountType().equals(AccountType.AGENT)) {
             newAccount.setAccountType(AccountType.AGENT);
         }else {

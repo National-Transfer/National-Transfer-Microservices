@@ -6,10 +6,7 @@ import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.enums.TransferType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,10 +33,15 @@ public class Transfer {
     private String reference;
 
     private BigDecimal transferAmount;
+
+    @Enumerated(EnumType.STRING)
     private TransferType transferType;
+    @Enumerated(EnumType.STRING)
     private TransferReason transferReason;
+    @Enumerated(EnumType.STRING)
     private TransferState transferState;
 
+    @Enumerated(EnumType.STRING)
     private CommissionType commissionType;
 
     @CreationTimestamp

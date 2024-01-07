@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/transfer")
+@RequestMapping("/api/v1/transfer")
 public class TransferController {
 
     private final TransferRepo transferRepo;

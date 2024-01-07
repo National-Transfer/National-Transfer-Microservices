@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ import java.util.UUID;
 import static com.ensa.transferservice.helper.Utils.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SendTransferService {
 
@@ -89,15 +91,15 @@ public class SendTransferService {
 
 
         if(transferAmountRequest.getTransferType().equals(TransferType.BY_WALLET)){
-            if(MAX_TRANSFER_LIMIT_PER_TRANSACTION.compareTo(amountResponse.getTotalAmount()) > 0)
+            if(MAX_TRANSFER_LIMIT_PER_TRANSACTION.compareTo(amountResponse.getTotalAmount()) < 0)
                 throw new TransferAmountException("The max amount allowed is " + MAX_TRANSFER_LIMIT_PER_TRANSACTION);
 
-            if(ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) > 0)
+            if(ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) < 0)
                 throw new TransferAmountException("The max of transfers allowed in a single year should be < " + ANNUAL_AMOUNT_TRANSFER_LIMIT);
 
         } else
         if (transferAmountRequest.getTransferType().equals(TransferType.IN_CASH)) {
-            if(MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT.compareTo(amountResponse.getTotalAmount()) > 0)
+            if(MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT.compareTo(amountResponse.getTotalAmount()) < 0)
                 throw new TransferAmountException("The max amount allowed is " + MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT);
         }
 
@@ -185,7 +187,7 @@ public class SendTransferService {
                         .transferReference(transfer.getReference())
                         .code(pin)
                         .transferAmount(transfer.getTransferAmount())
-                        .msgType(MsgType.To_RECIPIENT.toString())
+                        .msgType(MsgType.TO_RECIPIENT.toString())
                         .transferState(transfer.getTransferState().toString())
                         .build();
                 rabbitTemplate.convertAndSend(exchangeName, "msgRoutingKey", notificationRequest);
@@ -215,7 +217,7 @@ public class SendTransferService {
                         .transferReference(transfer.getReference())
                         .transferAmount(transfer.getTransferAmount())
                         .transferState(transfer.getTransferState().toString())
-                        .msgType(MsgType.To_RECIPIENT.toString())
+                        .msgType(MsgType.TO_RECIPIENT.toString())
                         .build();
 
                 rabbitTemplate.convertAndSend(exchangeName ,"msgRoutingKey", notificationRequest);

@@ -4,6 +4,7 @@ import com.ensa.accountservice.entity.Account;
 import com.ensa.accountservice.service.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class AccountController {
         return ResponseEntity.ok(accountService.deposit(ownerId, amount));
     }
 
-    @PostMapping("/sendTransfer/{ownerId}")
+    @PostMapping(value = "/sendTransfer/{ownerId}")
     public ResponseEntity<Account> emittedTransfer(@PathVariable String ownerId , @RequestBody BigDecimal amount){
         return ResponseEntity.ok(accountService.withdraw(ownerId, amount));
     }
