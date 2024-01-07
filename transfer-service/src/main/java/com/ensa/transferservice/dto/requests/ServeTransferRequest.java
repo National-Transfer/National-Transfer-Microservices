@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ServeTransferRequest {
 
-//    private String agency;
     private String reference;
-//    private RecipientResponse recipient;
     private String phone;
-//    private String agentId;
-
+    private String clientId;
 }

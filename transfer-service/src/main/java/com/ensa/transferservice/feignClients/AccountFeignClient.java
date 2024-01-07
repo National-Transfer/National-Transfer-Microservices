@@ -17,6 +17,9 @@ public interface AccountFeignClient {
     @GetMapping("/api/v1/accounts/owner/{ownerId}")
     ResponseEntity<AccountResponse> getAccountByOwnerId(@PathVariable String ownerId);
 
+    @GetMapping("/api/v1/accounts/{accountCode}")
+    ResponseEntity<AccountResponse> getAccountByAccountId(@PathVariable String accountCode);
+
     @PostMapping("/api/v1/accounts/recievedTransfer/{ownerId}")
     ResponseEntity<AccountResponse> updateAccountBalancePlus(@PathVariable String ownerId, @RequestBody BigDecimal amount);
 

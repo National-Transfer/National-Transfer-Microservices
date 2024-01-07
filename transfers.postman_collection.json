@@ -74,10 +74,16 @@
 			"name": "issue transfer by cash",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjdMTTZkQ2N0TGYxell1R0tYa3kwVE5mMUc4MkFvUVZKcDgyZzZBM2lVTHciLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2Mzc4NzMsImV4cCI6MTcwNDY0MTQ3MywiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NjM3ODcyLCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.fanNU4FKBxyxC34pkzPmDBDNNqNb2LyX_JKs0EE0xvYhsjQ0_L6ZIoVGMyQ8odKmPTkZjzxMQttj1eK1Zt7xH5wRS9e2TehL5qSb5R0m_X49MHmMsFrggsTJk0M0Zj4DJ-iJ0yDH9HxT1eOUqUBsxs_nNOE_2cd3R6H9n2AFfa4oZ6EuNZySd2yTFN7TTdYnxLbUisHwWLXsiy2qlgo2M7xaWuHK7G9Tnd4-fK9P7aNiqY9tOn5lLmeCMCD-oaK1NIzAaMar_cc2fT2-vaaiG8cMyafWZ_1vWB6uZz98Jn7EJUzUElijEPFwaVXzHJUKOlD8ATqzIr6YkVnqisVRHw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"clientId\": \"1\",\r\n    \"recipientId\": \"\"\r\n}",
+					"raw": "{\r\n    \"clientId\": \"6\",\r\n    \"recipientId\": \"8\",\r\n    \"agentId\": \"940178af-43a7-4f99-bc29-39e74b5de77e\",\r\n    \"phone\": \"0612218950\",\r\n    \"reason\": \"FAMILY_SUPPORT\",\r\n    \"transferNotification\": true,\r\n    \"transferType\": \"IN_CASH\",\r\n    \"commissionType\": \"ON_SENDER\",\r\n    \"amount\": 1110.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -102,56 +108,19 @@
 			"response": []
 		},
 		{
-			"name": "validate  transfer by cash",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjR1RWlMNGhkUVlEbHpPWG52WU9qTG5NQnNlNjloMGl2cF8ybkJyR01JMkEiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1OTgzMjAsImV4cCI6MTcwNDYwMTkyMCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJwcm9maWxlIiwiZW1haWwiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTk4MzE4LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.ajU9sbXZplOo0hfp2tKsHqoqKXmoVAXg1HpstLRaHKojKaZmNg5BdvT-C3DkYrNY4tr4OBtSLu0VLf_uAG-Nu4cwBwCdjBywldu91kGqcjk1JxO0pSEJD6ap3ev614wMQS4358eUl0WaahSuUqVw-aNun4rpaOGoPOQ5OUkWW3WDffzjcGEEjynPQ5il1frqHJ0da92GSmOhvnMsYsUuopFe2HuHMFVdAGsqyx1pENJgbGne146OG4rBPi00pP15n49ywga3qO2EvZdG8nKFSIlpxcdiAWUI8oJfOZvDApLpssLcU1h-Iy-aBniX9wDqnOUjP7NNtieRvv1HNfbPjg",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"reference\": \"EDP-d341cb75-0925-4406-8295-447adb8a3845\",\r\n    \"recipientPhone\": \"0612218950\",\r\n    \"otp\": null\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8082/api/v1/transfer/validateTransfer",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8082",
-					"path": [
-						"api",
-						"v1",
-						"transfer",
-						"validateTransfer"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "issue transfer by wallet",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlpMTWdMQmhQZ2ZHT01jbi1IS25MWk85OEoyR3prWDdYcUV3RkFoSnBjcjQiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1OTQ1MTgsImV4cCI6MTcwNDU5ODExOCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTk0NTE2LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.HwixDYOg6WaagrNV1MEKP4ADmfv9MG74wOmrfLtcx4ilhyRxM4VSeBiq76SixdpV7c9NcyBQPbVmCa_KCS6OcEkKU9CvLA8VQWA2THaZAuFko_l7wYK4VSRSTM-c2ux0-AVtIo0TAOUb-K25y06oDTeE4U1OsZTaxvDfdBIANiFbDfZ-uaW2SpDfckMMXHQo2Xx5bCEFtMc6tBVQD2CNATaR1PUXIRD1J6N0H2S0Re-UR3b-EP5K8VmK0pEjp5CI3ZVQ809IwpUhyxa-Qzq_VbkO_0LHJUMuMXwY9NvbNkOdLasaohLrux_1yTtArsOEFI8T2dZDA8qk05S2Q8YjIw",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"clientId\": \"4\",\r\n    \"recipientId\": \"2\",\r\n    \"agentId\": \"940178af-43a7-4f99-bc29-39e74b5de77e\",\r\n    \"phone\": \"0612218950\",\r\n    \"reason\": \"FAMILY_SUPPORT\",\r\n    \"transferNotification\": true,\r\n    \"transferType\": \"BY_WALLET\",\r\n    \"commissionType\": \"ON_SENDER\",\r\n    \"amount\": 1110.0\r\n}",
+					"raw": "{\r\n    \"clientId\": \"6\",\r\n    \"recipientId\": \"7\",\r\n    \"agentId\": \"940178af-43a7-4f99-bc29-39e74b5de77e\",\r\n    \"phone\": \"0612218950\",\r\n    \"reason\": \"FAMILY_SUPPORT\",\r\n    \"transferNotification\": true,\r\n    \"transferType\": \"BY_WALLET\",\r\n    \"commissionType\": \"ON_SENDER\",\r\n    \"amount\": 2000.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -182,13 +151,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjR1RWlMNGhkUVlEbHpPWG52WU9qTG5NQnNlNjloMGl2cF8ybkJyR01JMkEiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1OTgzMjAsImV4cCI6MTcwNDYwMTkyMCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJwcm9maWxlIiwiZW1haWwiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTk4MzE4LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.ajU9sbXZplOo0hfp2tKsHqoqKXmoVAXg1HpstLRaHKojKaZmNg5BdvT-C3DkYrNY4tr4OBtSLu0VLf_uAG-Nu4cwBwCdjBywldu91kGqcjk1JxO0pSEJD6ap3ev614wMQS4358eUl0WaahSuUqVw-aNun4rpaOGoPOQ5OUkWW3WDffzjcGEEjynPQ5il1frqHJ0da92GSmOhvnMsYsUuopFe2HuHMFVdAGsqyx1pENJgbGne146OG4rBPi00pP15n49ywga3qO2EvZdG8nKFSIlpxcdiAWUI8oJfOZvDApLpssLcU1h-Iy-aBniX9wDqnOUjP7NNtieRvv1HNfbPjg",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"reference\": \"EDP-c7bb01d4-77cd-4da1-9006-ab2f221ef503\",\r\n    \"recipientPhone\": \"0612218950\",\r\n    \"otp\": \"77402\"\r\n}",
+					"raw": "{\r\n    \"reference\": \"EDP-46403760-d50b-4316-8159-f973a40feb42\",\r\n    \"recipientPhone\": \"0612218950\",\r\n    \"otp\": \"71936\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -196,7 +165,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8082/api/v1/transfer/validateTransfer",
+					"raw": "http://localhost:8082/api/v1/transfer/validateTransferByWallet",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -206,7 +175,7 @@
 						"api",
 						"v1",
 						"transfer",
-						"validateTransfer"
+						"validateTransferByWallet"
 					]
 				}
 			},
@@ -247,12 +216,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjR1RWlMNGhkUVlEbHpPWG52WU9qTG5NQnNlNjloMGl2cF8ybkJyR01JMkEiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ1OTgzMjAsImV4cCI6MTcwNDYwMTkyMCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYjQzeWttYmRqdnluNjVkNyIsInNjcCI6WyJwcm9maWxlIiwiZW1haWwiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NTk4MzE4LCJzdWIiOiJyZWRhaGltbWkyMkBnbWFpbC5jb20iLCJncm91cHMiOlsiRXZlcnlvbmUiLCJBRE1JTiJdfQ.ajU9sbXZplOo0hfp2tKsHqoqKXmoVAXg1HpstLRaHKojKaZmNg5BdvT-C3DkYrNY4tr4OBtSLu0VLf_uAG-Nu4cwBwCdjBywldu91kGqcjk1JxO0pSEJD6ap3ev614wMQS4358eUl0WaahSuUqVw-aNun4rpaOGoPOQ5OUkWW3WDffzjcGEEjynPQ5il1frqHJ0da92GSmOhvnMsYsUuopFe2HuHMFVdAGsqyx1pENJgbGne146OG4rBPi00pP15n49ywga3qO2EvZdG8nKFSIlpxcdiAWUI8oJfOZvDApLpssLcU1h-Iy-aBniX9wDqnOUjP7NNtieRvv1HNfbPjg",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8082/api/v1/transfer/checkTransferToServe/EDP-d341cb75-0925-4406-8295-447adb8a3845",
+					"raw": "http://localhost:8082/api/v1/transfer/checkTransferToServe/EDP-46403760-d50b-4316-8159-f973a40feb42",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -263,7 +232,7 @@
 						"v1",
 						"transfer",
 						"checkTransferToServe",
-						"EDP-d341cb75-0925-4406-8295-447adb8a3845"
+						"EDP-46403760-d50b-4316-8159-f973a40feb42"
 					],
 					"query": [
 						{
@@ -337,6 +306,80 @@
 						"transfer",
 						"TransfersForClient",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "serve transfer in wallet (step 1)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reference\": \"EDP-46403760-d50b-4316-8159-f973a40feb42\",\r\n    \"phone\": \"0612218950\",\r\n    \"clientId\":\"6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/transfer/serveTransferToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"transfer",
+						"serveTransferToWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate transfer in wallet (step2)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmEtN1F2SzVwcHM2Ukd4LTB0Z28tUWgzb0FzcEtLaDZTVVk5NDdwWjZkY3MiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2NDE2NzEsImV4cCI6MTcwNDY0NTI3MSwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJwcm9maWxlIiwib3BlbmlkIiwiZW1haWwiXSwiYXV0aF90aW1lIjoxNzA0NjQxNjY5LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.HrDVCdyhs9bkwaDLCYl5t1OmuAP4OzetZEXnOjMFJ-fHQRsX3wNOsax5IVWmye8j3PlFIjNU8Mg0N9heGlzSAhNMpU1D4bJz7zUG_cxEUkQUXksFrUwLWpuSQyI9_egqpflr0olBF2cTqWoQPtWF3vhNY_KqwILRm7_EdYtS5qArUYH8y2WvAaYuI_Yfl_wYNPYmGY2M2XluVbutpE5DyMhfWem6DKAnZtxl2MWhE41g4Viykp0_MGw1NYv14dLRtQREHcxHRu8wR71cx9Qm-kuFxyQCrzdyjeYKVXnPZOSQHRfBBHt1CErHRYbmBcY5e3SBOH4ykrGnC6-DrYjyxA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reference\": \"EDP-46403760-d50b-4316-8159-f973a40feb42\",\r\n    \"otp\": 15665,\r\n    \"phone\": \"0612218950\",\r\n    \"recipientId\": \"7\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/transfer/validateTransferToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"transfer",
+						"validateTransferToWallet"
 					]
 				}
 			},

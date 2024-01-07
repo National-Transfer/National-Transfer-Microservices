@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/blacklistedClients")
 @RestController
 @AllArgsConstructor
@@ -26,5 +28,12 @@ public class FraudDetectionController {
     @DeleteMapping("/{clientId}")
     public ResponseEntity<Boolean> deleteAccountByOwnerId(@PathVariable Long clientId) {
         return ResponseEntity.ok(fraudDetectionService.deletedBlacklistedClient(clientId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FraudDetection>> getBlackListedClients() {
+        return ResponseEntity.ok(
+                fraudDetectionService.getBlackListedClients()
+        );
     }
 }

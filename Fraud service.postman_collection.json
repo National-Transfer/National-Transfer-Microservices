@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "4d3fd820-a0ce-4289-8d56-b3c24b8649d0",
+		"name": "Fraud service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29944646"
+	},
+	"item": [
+		{
+			"name": "add black listed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmxtVlZObnlqejJNaUN0cTRmOUdZYURSRThDcllHcjRZWHduUlNtUDZfNTgiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MjkxODgsImV4cCI6MTcwNDYzMjc4OCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NjI5MTg2LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.OgC39zRdJg8orn2Zems2w6mC8LqKz99KX7Arm0V_QOq2LzyNzX2x4OM3A7Hw4LlQWrbHbu6NdI2drZSn0i-QqGn94NEUKNu1o13gztlP_USdLGBA__mEnek5KSQZtiKEP11mnnwy2NO3hr7d55EW0qqfZhSkEUvM4TGfKyq0S148lOh_RtRYPrqaB-kLa-gOoLHOz69Hdq1cnXt7lBkLa_UBop3vUW3b-gt4f0gqPlMx7oENerDwlp1nNwqUIwi8SoUx_QxxZ3q-x6G2iH25HHJTIK7dU1A0E7-95elzuHmGXgcN_z2HMrwRVNxyfyGr9XrdUYI4HlRa0i03Hk9qnQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": \"6\",\r\n    \"cin\": \"C98765432\",\r\n    \"phone\": \"0612218950\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/api/v1/blacklistedClients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"blacklistedClients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check black listed",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiJuN0trTmxoSkYzWEIwaF91MW9TRVZfUGhqREVoV1VJenNSNXIxMlVJUVhJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmxtVlZObnlqejJNaUN0cTRmOUdZYURSRThDcllHcjRZWHduUlNtUDZfNTgiLCJpc3MiOiJodHRwczovL2Rldi0xMjYzNzI5OC5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MDQ2MjkxODgsImV4cCI6MTcwNDYzMjc4OCwiY2lkIjoiMG9hZTZxN3d2aG9ZMjhvWVY1ZDciLCJ1aWQiOiIwMHVlYmYwZTIweW83OUplOTVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNzA0NjI5MTg2LCJzdWIiOiJzZW5zaGl3YXJyaW9yMDVAZ21haWwuY29tIiwiZ3JvdXBzIjpbIkFHRU5UIiwiRXZlcnlvbmUiXSwidXNlcklkIjoiOTQwMTc4YWYtNDNhNy00Zjk5LWJjMjktMzllNzRiNWRlNzdlIn0.OgC39zRdJg8orn2Zems2w6mC8LqKz99KX7Arm0V_QOq2LzyNzX2x4OM3A7Hw4LlQWrbHbu6NdI2drZSn0i-QqGn94NEUKNu1o13gztlP_USdLGBA__mEnek5KSQZtiKEP11mnnwy2NO3hr7d55EW0qqfZhSkEUvM4TGfKyq0S148lOh_RtRYPrqaB-kLa-gOoLHOz69Hdq1cnXt7lBkLa_UBop3vUW3b-gt4f0gqPlMx7oENerDwlp1nNwqUIwi8SoUx_QxxZ3q-x6G2iH25HHJTIK7dU1A0E7-95elzuHmGXgcN_z2HMrwRVNxyfyGr9XrdUYI4HlRa0i03Hk9qnQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8085/api/v1/blacklistedClients/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"blacklistedClients",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all blacklisted clients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/api/v1/blacklistedClients/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"blacklistedClients",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

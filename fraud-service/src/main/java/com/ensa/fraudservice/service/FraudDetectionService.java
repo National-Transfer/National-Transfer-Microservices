@@ -6,6 +6,8 @@ import com.ensa.fraudservice.repository.FraudDetectionRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FraudDetectionService {
@@ -30,5 +32,9 @@ public class FraudDetectionService {
         FraudDetection fraudDetection = fraudDetectionRepo.findFraudDetectionHistoryByClientId(clientId).orElseThrow( () -> new IllegalStateException("Client is not blacklisted"));
         fraudDetectionRepo.delete(fraudDetection);
         return Boolean.TRUE;
+    }
+
+    public List<FraudDetection> getBlackListedClients() {
+        return fraudDetectionRepo.findAll();
     }
 }
