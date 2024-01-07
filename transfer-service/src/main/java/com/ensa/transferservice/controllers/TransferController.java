@@ -140,7 +140,7 @@ public class TransferController {
         );
     }
 
-    @GetMapping("/transfer/{reference}")
+    @GetMapping("/checkTransferToServe/{reference}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> checkTransferToServe(@PathVariable String reference)
     {

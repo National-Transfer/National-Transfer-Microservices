@@ -43,6 +43,11 @@ public class SendTransferService {
     private final FraudFeignClient fraudFeignClient;
     private final AccountFeignClient accountFeignClient;
     private final ChargeFeignClient chargeFeignClient;
+    @Value("${notification.routingKey1}")
+    private String msgRoutingKey;
+
+    @Value("${notification.routingKey2}")
+    private String otpRoutingKey;
 
     @Value("${notification.exchange}")
     private String exchangeName;
@@ -161,7 +166,7 @@ public class SendTransferService {
                     .build();
 
             //send otp notification to client
-            rabbitTemplate.convertAndSend(exchangeName, "otpRoutingKey", request);
+            rabbitTemplate.convertAndSend(exchangeName, otpRoutingKey, request);
 
             transferToReturn =  transferRepo.save(transfer);
         }
@@ -190,7 +195,7 @@ public class SendTransferService {
                         .msgType(MsgType.TO_RECIPIENT.toString())
                         .transferState(transfer.getTransferState().toString())
                         .build();
-                rabbitTemplate.convertAndSend(exchangeName, "msgRoutingKey", notificationRequest);
+                rabbitTemplate.convertAndSend(exchangeName, msgRoutingKey, notificationRequest);
             }
 
             //update agentAccount balance from front
@@ -220,7 +225,7 @@ public class SendTransferService {
                         .msgType(MsgType.TO_RECIPIENT.toString())
                         .build();
 
-                rabbitTemplate.convertAndSend(exchangeName ,"msgRoutingKey", notificationRequest);
+                rabbitTemplate.convertAndSend(exchangeName ,msgRoutingKey, notificationRequest);
             }
             //update clientAccount balance from front
             accountFeignClient.updateAccountBalanceMinus(transfer.getClientId(), transfer.getTransferAmount());

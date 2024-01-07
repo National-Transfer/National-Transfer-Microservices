@@ -15,6 +15,10 @@ import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,6 +36,12 @@ public class ReceiveTransferService {
 
     @Value("${notification.exchange}")
     private String exchangeName;
+
+    @Value("${notification.routingKey1}")
+    private String msgRoutingKey;
+
+    @Value("${notification.routingKey2}")
+    private String otpRoutingKey;
 
     private AccountResponse getAccount (TransferType transferType, String clientId, String agentId) {
         String id = switch (transferType) {
@@ -89,7 +99,7 @@ public class ReceiveTransferService {
 //                    .build();
 //
 //            //send otp notification to client
-//            rabbitTemplate.convertAndSend(exchangeName, "otpRoutingKey", request);
+//            rabbitTemplate.convertAndSend(exchangeName, otpRoutingKey, request);
 //
 //            return transferRepo.save(transfer);
 //        }
@@ -105,6 +115,9 @@ public class ReceiveTransferService {
         Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
+        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt =  (Jwt) authentication.getPrincipal();
+        String receiverAgentId = (String) jwt.getClaims().get("userId");
 
         transfer.setTransferState(TransferState.SERVED);
         if(transfer.getTransferNotification()) {
@@ -117,10 +130,10 @@ public class ReceiveTransferService {
                     .msgType(MsgType.TO_CLIENT.toString())
                     .build();
 
-            rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);
+            rabbitTemplate.convertAndSend(exchangeName, msgRoutingKey, notificationRequest);
         }
         // //update agentAccount balance
-        accountFeignClient.updateAccountBalanceMinus(transfer.getAgentId(), transfer.getTransferAmount());
+        accountFeignClient.updateAccountBalanceMinus(receiverAgentId, transfer.getTransferAmount());
         return transferRepo.save(transfer);
     }
 
@@ -149,7 +162,7 @@ public class ReceiveTransferService {
 //                        .transferAmount(transfer.getTransferAmount())
 //                        .msgType(MsgType.TO_CLIENT.toString())
 //                        .build();
-//                rabbitTemplate.convertAndSend(exchangeName, "MsgRoutingKey", notificationRequest);
+//                rabbitTemplate.convertAndSend(exchangeName, msgRoutingKey, notificationRequest);
 //            }
 //            return transferRepo.save(transfer);
 //
@@ -171,7 +184,7 @@ public class ReceiveTransferService {
             throw new InvalidTransferException("Transfer returned");
 
         if(transfer.getTransferState() == TransferState.ESCHEAT)
-            throw new InvalidTransferException("Transfer desiré");
+            throw new InvalidTransferException("Transfer deshéré");
 
         if(transfer.getExpirationDate().isBefore(LocalDate.now()))
             throw new InvalidTransferException("Transfer expired");

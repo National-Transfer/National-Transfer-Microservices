@@ -34,16 +34,17 @@ public class ProspectService {
 
 
     @Transactional
-    public Prospect getProspect(String identityNumber){
+    public Prospect getProspect (String identityNumber) {
+
         return prospectRepository.findByIdentityNumber(identityNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Prospect not found with identity number: " + identityNumber));
     }
 
-    public List<Prospect> getAllProspects() {
+    public List<Prospect> getAllProspects () {
         return prospectRepository.findAll();
     }
 
-    public Prospect saveProspect(ProspectRequest prospectRequest) {
+    public Prospect saveProspect (ProspectRequest prospectRequest) {
         if (prospectRepository.existsByIdentityNumber(prospectRequest.getIdentityNumber())) {
             throw new IllegalStateException("Prospect already exists");
         } else {
@@ -51,33 +52,35 @@ public class ProspectService {
         }
     }
 
-    public boolean prospectExists(String identityNumber) {
+    public boolean prospectExists (String identityNumber) {
         return prospectRepository.existsByIdentityNumber(identityNumber);
     }
 
-    public Prospect updateProspect(Long id, ProspectRequest prospectRequest) { // here
+    public Prospect updateProspect (Long id , ProspectRequest prospectRequest) { // here
         Prospect prospect = prospectRepository.findById(id).orElseThrow();
 
-        CustomerProfileUtil.updateCustomerProfile(prospect, prospectRequest);
+        CustomerProfileUtil.updateCustomerProfile(prospect , prospectRequest);
         return prospectRepository.save(prospect);
     }
 
-    public String deleteProspect(Long id) {
+    public String deleteProspect (Long id) {
         prospectRepository.deleteById(id);
         return "prospect with id {" + id + "} deleted successfully";
     }
 
     @Transactional
-    public String convertToClient(Long id) {
+    public String convertToClient (Long id) {
         Prospect prospect = prospectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Prospect not found with id: " + id));
         Client client = new Client(prospect);
         if (prospect.getBeneficiaries() != null) {
             client.setBeneficiaries(new HashSet<>(prospect.getBeneficiaries()));
             client.getBeneficiaries().forEach(beneficiary -> {
+
                 beneficiary.setProspect(null);
                 beneficiary.setClient(client);
             });
         }
+
         Client clientSaved = clientRepository.save(client);
         prospectRepository.delete(prospect);
 

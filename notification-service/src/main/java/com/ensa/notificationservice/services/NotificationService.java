@@ -25,7 +25,6 @@ public class NotificationService {
     @RabbitListener(queues = "${notification.queues.queue1}")
     public void msgReceiveMessage(NotificationRequest request) {
         String verificationMsg = null;
-        log.info("ON TOP {}", request);
 
         if ("TO_RECIPIENT".equals(request.getMsgType())) {
             verificationMsg = generateRecipientNotification(request);
@@ -39,9 +38,8 @@ public class NotificationService {
                 verificationMsg = generateOperationsNotification(request, operation);
             }
         }
-        log.info("outside: {}", verificationMsg);
+
         if (verificationMsg != null) {
-            log.info("inside {}", verificationMsg);
             generateNotification(request, verificationMsg);
         }
     }

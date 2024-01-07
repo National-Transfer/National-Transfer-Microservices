@@ -24,6 +24,7 @@ import java.util.Set;
 @Entity
 public class Prospect extends CustomerProfile {
 
+
     @OneToMany(mappedBy = "prospect", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Beneficiary> beneficiaries;
