@@ -63,13 +63,16 @@ public class TransferService {
 
         List<Transfer> transfers = new ArrayList<>();
 
+        System.out.println(transferRepo.findByTransferState(TransferState.TO_VALIDATE));
+
         transfers.addAll(transferRepo.findByTransferState(TransferState.TO_VALIDATE));
+
+        System.out.println(transfers);
 
         transfers.addAll(transferRepo.findByTransferState(TransferState.TO_SERVE));
 
-//        List<Transfer> transfersToValidate = transferRepo.findByTransferState(TransferState.TO_VALIDATE);
-//
-//        List<Transfer> transfersToServe = transferRepo.findByTransferState(TransferState.TO_SERVE);
+        System.out.println(transfers);
+
 
         return transfers;
     }

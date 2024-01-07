@@ -19,7 +19,7 @@ public class TransferProcessor implements ItemProcessor<TransferDto, TransferDto
         if (item.getTransferState().equals("TO_VALIDATE")){
             item.setAction("delete");
         } else if (item.getTransferState().equals("TO_SERVE") && item.getExpirationDate().isBefore(LocalDate.now())) {
-            item.setTransferState("TO_SERVE");
+            item.setTransferState("TO_BLOCK");
             item.setAction("update");
         } else{
             item.setAction("none");
