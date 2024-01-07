@@ -16,5 +16,6 @@ public class ServeTransferRequest {
     private String reference;
 //    private RecipientResponse recipient;
     private String phone;
+//    private String agentId;
 
 }
