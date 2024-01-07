@@ -1,4 +1,4 @@
-package com.ensa.transferservice.enums;
+package com.ensa.chargeservice.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

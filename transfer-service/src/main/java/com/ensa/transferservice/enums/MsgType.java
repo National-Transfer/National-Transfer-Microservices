@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MsgType {
 
-    To_RECIPIENT,
+    TO_RECIPIENT,
     TO_CLIENT,
     OTP
 

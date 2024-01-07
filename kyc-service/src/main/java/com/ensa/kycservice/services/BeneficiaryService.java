@@ -42,6 +42,7 @@ public class BeneficiaryService {
                 .phoneNumber(beneficiaryRequest.getPhoneNumber())
                 .prospect(prospect)
                 .build();
+
         return beneficiaryRepository.save(beneficiary);
     }
 

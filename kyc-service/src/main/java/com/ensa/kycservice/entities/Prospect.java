@@ -1,6 +1,7 @@
 package com.ensa.kycservice.entities;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -13,14 +14,14 @@ import java.util.Set;
 
 
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 
 @Entity
-public class Prospect extends CustomerProfile{
+public class Prospect extends CustomerProfile {
 
-    @OneToMany(mappedBy = "prospect")
+    @OneToMany(mappedBy = "prospect", cascade = CascadeType.PERSIST)
     private Set<Beneficiary> beneficiaries;
 }
