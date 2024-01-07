@@ -1,5 +1,6 @@
 package com.ensa.batchservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +21,15 @@ import java.util.UUID;
 public class TransferDto {
 
 
-    private UUID id;
+//    private UUID id;
     private String reference;
     private BigDecimal transferAmount;
     private String transferType;
     private String transferReason;
     private String transferState;
-    private LocalDateTime transferDate;
+    //private LocalDateTime transferDate;
     private LocalDate expirationDate;
-    private LocalDateTime updatedAt;
+    //private LocalDateTime updatedAt;
     private String clientId;
 
     @JsonIgnore

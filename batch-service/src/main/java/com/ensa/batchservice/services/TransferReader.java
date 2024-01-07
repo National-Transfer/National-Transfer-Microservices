@@ -8,6 +8,7 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -25,16 +26,13 @@ public class TransferReader implements ItemReader<TransferDto> {
 
     @Override
     public TransferDto read () throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+        System.out.println("here");
         if (transferIterator == null || !transferIterator.hasNext()) {
-//            List<TransferDto> transfers = new ArrayList<>();
-//            BatchTransferDto batchDto = feignClient.getAllTransfersForBatch().getBody();
-//            batchDto.getTransfersToValidate().stream().forEach(transfer -> {
-//                transfers.add(transfer);
-//            });
-//            batchDto.getTransfersToServe().stream().forEach(transfer -> {
-//                transfers.add(transfer);
-//            });
-            List<TransferDto> transfers = feignClient.getAllTransfersForBatch().getBody();
+            ResponseEntity<List<TransferDto>> response = feignClient.getAllTransfersForBatch();
+            System.out.println("Response Status: " + response.getStatusCode());
+            System.out.println("Response Body: " + response.getBody());
+
+            List<TransferDto> transfers = response.getBody();
             if (transfers == null || transfers.isEmpty()) {
                 return null;
             }

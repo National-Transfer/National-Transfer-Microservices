@@ -15,7 +15,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 
-@RestController("/api/v1/beneficiaries")
+@RestController
+@RequestMapping("/api/v1/beneficiaries")
 public class BeneficiaryController {
 
     private final BeneficiaryService beneficiaryService;

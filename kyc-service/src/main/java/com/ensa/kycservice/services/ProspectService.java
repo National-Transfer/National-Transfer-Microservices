@@ -32,6 +32,7 @@ public class ProspectService {
     private final com.okta.sdk.client.Client oktaClient;
 
 
+    @Transactional
     public Prospect getProspect(String identityNumber){
         return prospectRepository.findByIdentityNumber(identityNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Prospect not found with identity number: " + identityNumber));
@@ -69,18 +70,16 @@ public class ProspectService {
     public String convertToClient(Long id){
         Prospect prospect = prospectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Prospect not found with id: " + id));
         Client client = new Client(prospect);
-        Client clientSaved = clientRepository.save(client);
         if (prospect.getBeneficiaries() != null) {
             client.setBeneficiaries(new HashSet<>(prospect.getBeneficiaries()));
 
             client.getBeneficiaries().forEach(beneficiary -> {
                 beneficiary.setProspect(null);
                 beneficiary.setClient(client);
-
+                client.getBeneficiaries().add(beneficiary);
             });
-            beneficiaryRepository.saveAll(client.getBeneficiaries());
         }
-
+        Client clientSaved = clientRepository.save(client);
         prospectRepository.delete(prospect);
 
         // Call Account Microservice to create Account
