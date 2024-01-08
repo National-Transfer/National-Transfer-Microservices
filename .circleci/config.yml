@@ -28,7 +28,7 @@ jobs:
           command: mvn test
       - run:
           name: Build docker images
-          command: mvn compile jib:build -DTAG1=latest -DTAG2=$CIRCLE_SHA1 -DDOCKER_USERNAME=$DOCKER_USERNAME -DDOCKER_PASSWORD=$DOCKER_PASSWORD
+          command: mvn compile jib:build -DTAGS=latest,$CIRCLE_SHA1 -DDOCKER_USERNAME=$DOCKER_USERNAME -DDOCKER_PASSWORD=$DOCKER_PASSWORD
 
 
 
