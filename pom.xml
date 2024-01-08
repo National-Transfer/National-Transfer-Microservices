@@ -82,7 +82,15 @@
                 <version>3.3.2</version>
                 <configuration>
                     <to>
-                        <image>redahimmi/${project.artifactId}</image>
+                        <image>docker.io/${DOCKER_USERNAME}/national-transfer-${project.artifactId}</image>
+                        <tags>
+                            <tag>${TAG1:latest}</tag>
+                            <tag>${TAG2:latest}</tag>
+                        </tags>
+                        <auth>
+                            <username>${DOCKER_USERNAME}</username>
+                            <password>${DOCKER_PASSWORD}</password>
+                        </auth>
                     </to>
                 </configuration>
             </plugin>
