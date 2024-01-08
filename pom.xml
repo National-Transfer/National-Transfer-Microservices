@@ -83,10 +83,7 @@
                 <configuration>
                     <to>
                         <image>docker.io/${DOCKER_USERNAME}/national-transfer-${project.artifactId}</image>
-                        <tags>
-                            <tag>${TAG1:-latest}</tag>
-                            <tag>${TAG2:-latest}</tag>
-                        </tags>
+                        <tags>${TAGS}</tags>
                         <auth>
                             <username>${DOCKER_USERNAME}</username>
                             <password>${DOCKER_PASSWORD}</password>
