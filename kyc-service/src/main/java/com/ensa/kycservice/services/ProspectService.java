@@ -3,13 +3,12 @@ package com.ensa.kycservice.services;
 
 import com.ensa.kycservice.dto.AccountRequestDto;
 import com.ensa.kycservice.dto.ProspectRequest;
-import com.ensa.kycservice.entities.Beneficiary;
 import com.ensa.kycservice.entities.Client;
 import com.ensa.kycservice.entities.Prospect;
 import com.ensa.kycservice.repositories.BeneficiaryRepository;
 import com.ensa.kycservice.repositories.ClientRepository;
 import com.ensa.kycservice.repositories.ProspectRepository;
-import com.ensa.kycservice.utils.AccountUtil;
+import com.ensa.kycservice.services.http.AccountsFeignClient;
 import com.ensa.kycservice.utils.CustomerProfileUtil;
 import com.okta.sdk.resource.user.User;
 import com.okta.sdk.resource.user.UserBuilder;
@@ -29,7 +28,7 @@ public class ProspectService {
     private final ProspectRepository prospectRepository;
     private final ClientRepository clientRepository;
     private final BeneficiaryRepository beneficiaryRepository;
-    private final AccountUtil accountUtil;
+    private final AccountsFeignClient accountsFeignClient;
     private final com.okta.sdk.client.Client oktaClient;
 
 
@@ -85,7 +84,7 @@ public class ProspectService {
         prospectRepository.delete(prospect);
 
         // Call Account Microservice to create Account
-        accountUtil.createAccountForClient(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).accountType("CLIENT").build());
+        accountsFeignClient.createAccount(AccountRequestDto.builder().ownerId(String.valueOf(clientSaved.getId())).accountType("CLIENT").build());
         // create okta user
         User clientOkta = UserBuilder.instance()
                 .setGroups("00ge70iv1oiDe46dg5d7") // AGENT GROUP ID "CLIENT"
