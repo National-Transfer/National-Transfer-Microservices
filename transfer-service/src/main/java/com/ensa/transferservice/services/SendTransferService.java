@@ -128,10 +128,10 @@ public class SendTransferService {
             }
 
 
-            if (ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) < 0){
-                logger.warn("Annual transfer limit exceeded for account: {}", account);
-                throw new TransferAmountException("The max of transfers allowed in a single year should be < " + ANNUAL_AMOUNT_TRANSFER_LIMIT);
-            }
+//            if (ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) < 0){
+//                logger.warn("Annual transfer limit exceeded for account: {}", account);
+//                throw new TransferAmountException("The max of transfers allowed in a single year should be < " + ANNUAL_AMOUNT_TRANSFER_LIMIT);
+//            }
 
 
         } else if (transferAmountRequest.getTransferType().equals(TransferType.IN_CASH)) {
