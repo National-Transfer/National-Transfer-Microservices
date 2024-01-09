@@ -4,6 +4,12 @@ server:
 spring.application.name: api-gateway
 
 
+management:
+  endpoint:
+    health:
+      probes.enabled: true
+      livenessState.enabled: true
+      readinessState.enabled: true
 
 # add more paths, filters, predicates later.
 spring:

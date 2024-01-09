@@ -34,12 +34,12 @@ public class ClientResponse extends CustomerProfileDto{
       this.city = client.getCity();
       this.phoneNumber = client.getPhoneNumber();
       this.email = client.getEmail();
-      this.accountResponseDto = accountResponseDto;
+      this.account = accountResponseDto;
       this.beneficiaries = client.getBeneficiaries();
    }
 
    @JsonProperty("account")
-   private AccountResponseDto accountResponseDto;
+   private AccountResponseDto account;
 
    private Set<Beneficiary> beneficiaries;
 }

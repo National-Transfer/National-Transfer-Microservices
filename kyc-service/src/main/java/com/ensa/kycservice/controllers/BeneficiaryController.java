@@ -2,6 +2,7 @@ package com.ensa.kycservice.controllers;
 
 
 import com.ensa.kycservice.dto.BeneficiaryRequest;
+import com.ensa.kycservice.dto.BeneficiaryResponse;
 import com.ensa.kycservice.dto.Response;
 import com.ensa.kycservice.entities.Beneficiary;
 import com.ensa.kycservice.services.BeneficiaryService;
@@ -47,6 +48,12 @@ public class BeneficiaryController {
     public ResponseEntity<List<Beneficiary>> getAllBeneficiariesForClient(@PathVariable Long id){
         return ResponseEntity.ok(
                 beneficiaryService.getBeneficiariesForClient(id)
+        );
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BeneficiaryResponse> getBeneficiary(@PathVariable Long id){
+        return ResponseEntity.ok(
+                beneficiaryService.getBeneficiary(id)
         );
     }
 

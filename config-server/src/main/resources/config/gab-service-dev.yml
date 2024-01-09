@@ -5,6 +5,14 @@ spring.application.name: gab-service
 
 
 
+management:
+  endpoint:
+    health:
+      probes.enabled: true
+      livenessState.enabled: true
+      readinessState.enabled: true
+
+
 spring:
   rabbitmq:
     host: localhost

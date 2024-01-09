@@ -2,6 +2,7 @@ package com.ensa.kycservice.services;
 
 
 import com.ensa.kycservice.dto.BeneficiaryRequest;
+import com.ensa.kycservice.dto.BeneficiaryResponse;
 import com.ensa.kycservice.entities.Beneficiary;
 import com.ensa.kycservice.entities.Client;
 import com.ensa.kycservice.entities.Prospect;
@@ -90,5 +91,20 @@ public class BeneficiaryService {
 
         beneficiaryRepository.deleteById(id);
         return "beneficiary with id {" + id + "} deleted successfully";
+    }
+
+    public BeneficiaryResponse getBeneficiary(Long id) {
+         Beneficiary beneficiary = beneficiaryRepository.findById(id).orElseThrow();
+
+        BeneficiaryResponse beneficiaryResponse = BeneficiaryResponse.builder()
+                .id(beneficiary.getId())
+                .firstName(beneficiary.getFirstName())
+                .lastName(beneficiary.getLastName())
+                .phoneNumber(beneficiary.getPhoneNumber())
+                .prospect(prospectRepository.findByBeneficiary(beneficiary))
+                .client(clientRepository.findByBeneficiary(beneficiary))
+                .build();
+
+        return beneficiaryResponse;
     }
 }
