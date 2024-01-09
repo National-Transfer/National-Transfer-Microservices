@@ -1,6 +1,5 @@
 package com.ensa.transferservice.dto.requests;
 
-import com.ensa.transferservice.dto.responses.RecipientResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

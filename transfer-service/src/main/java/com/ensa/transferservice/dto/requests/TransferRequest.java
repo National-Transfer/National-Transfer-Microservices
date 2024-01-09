@@ -30,5 +30,4 @@ public class TransferRequest {
     private TransferType transferType;
     private CommissionType commissionType;
 
-
 }

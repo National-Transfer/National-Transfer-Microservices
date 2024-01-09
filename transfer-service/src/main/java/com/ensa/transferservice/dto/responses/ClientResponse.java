@@ -15,5 +15,5 @@ public class ClientResponse {
 
     private String walletId;
     private String phone;
-    private List<RecipientResponse> recipientList;
+//    private List<RecipientResponse> recipientList;
 }

@@ -7,6 +7,8 @@ import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.exceptions.ResourceNotFoundException;
 import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class TransferService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
+
     private final TransferRepo transferRepo;
     private final RabbitTemplate rabbitTemplate;
 
@@ -38,13 +42,18 @@ public class TransferService {
 
 
     public Page<Transfer> getAllTransfers(int page, int size) {
+        logger.info("Fetching all transfers with page: {} and size: {}", page, size);
         Pageable pageRequest = PageRequest.of(page, size);
         return transferRepo.findAll(pageRequest);
     }
 
     public Transfer getTransferByReference(String reference) {
+        logger.info("Getting transfer with reference: {}", reference);
         return transferRepo.findByReference(reference).orElseThrow(
-                () -> new ResourceNotFoundException("Transfer not found")
+                () -> {
+                    logger.error("Transfer with reference {} not found", reference);
+                    return new ResourceNotFoundException("Transfer not found");
+                }
 
         );
     }
@@ -61,6 +70,8 @@ public class TransferService {
 
     public List<Transfer> getAllTransfersForBatch() {
 
+        logger.info("Fetching all transfers for batch processing");
+
         List<Transfer> transfers = new ArrayList<>();
 
         System.out.println(transferRepo.findByTransferState(TransferState.TO_VALIDATE));
@@ -73,11 +84,12 @@ public class TransferService {
 
         System.out.println(transfers);
 
-
+        logger.debug("Found {} transfers for batch processing", transfers.size());
         return transfers;
     }
 
     public List<Transfer> getAllTransfersForClient(String clientId) {
+        logger.info("Fetching all transfers for client with ID: {}", clientId);
         return transferRepo.findByClientId(clientId);
     }
 
@@ -87,14 +99,17 @@ public class TransferService {
     }
 
     public List<Transfer> saveAllTransfers(List<Transfer> transfers) {
+        logger.info("Saving a batch of {} transfers", transfers.size());
         return transferRepo.saveAll(transfers);
     }
 
     public void deleteAllTransfers(List<Transfer> transfers) {
+        logger.info("Deleting a batch of {} transfers", transfers.size());
         transferRepo.deleteAll(transfers);
     }
 
     public void sendNotification(String phone, String transferReference, BigDecimal transferAmount, TransferState transferState, MsgType msgType, String code) {
+        logger.info("Sending notification to phone: {}, reference: {}, amount: {}, state: {}, type: {}", phone, transferReference, transferAmount, transferState, msgType);
         NotificationRequest notificationRequest = NotificationRequest.builder()
                 .phone(phone)
                 .transferReference(transferReference)
@@ -104,6 +119,7 @@ public class TransferService {
                 .build();
         if (code != null){
             notificationRequest.setCode(code);
+            logger.debug("Notification code: {}", code);
         }
         if (msgType.equals(MsgType.OTP)) {
             rabbitTemplate.convertAndSend(exchangeName, otpRoutingKey, notificationRequest);
