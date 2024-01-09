@@ -50,7 +50,13 @@ services:
     networks:
       - db-net
 
-
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
 
 volumes:
   mysql_data:
