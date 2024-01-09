@@ -72,9 +72,7 @@ public class ReceiveTransferService {
                 () -> new ResourceNotFoundException("Transfer not found")
         );
 
-
 //        Serve transfer in cash and update balance
-        if (transfer.getTransferType().equals(TransferType.IN_CASH)) {
             JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
             Jwt jwt = (Jwt) authentication.getPrincipal();
             String receiverAgentId = (String) jwt.getClaims().get("userId");
@@ -86,7 +84,6 @@ public class ReceiveTransferService {
             }
             // //update agentAccount balance
             accountFeignClient.updateAccountBalanceMinus(receiverAgentId, transfer.getTransferAmount());
-        }
         return transferRepo.save(transfer);
     }
 
@@ -94,8 +91,6 @@ public class ReceiveTransferService {
         Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
                 () -> new NoSuchElementException("Transfer not found")
         );
-
-        if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
 
             AccountResponse clientAccount = accountFeignClient.getAccountByOwnerId(serveRequest.getClientId()).getBody();
 
@@ -106,15 +101,13 @@ public class ReceiveTransferService {
             transferService.sendNotification(serveRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.OTP, otp);
 
             return transferRepo.save(transfer);
-        }
-        return null;
     }
 
     public Transfer validateTransferToWallet(ValidateTransferRequest transferRequest) {
         Transfer transfer = transferRepo.findByReference(transferRequest.getReference()).orElseThrow(
                 () -> new NoSuchElementException("Transfer not found")
         );
-        if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
+//        if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
             if (!transfer.getOtpCode().equals(transferRequest.getOtp()))
                 throw new IllegalArgumentException("Incorrect OTP code !");
 
@@ -125,7 +118,7 @@ public class ReceiveTransferService {
                 transferService.sendNotification(transferRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.TO_RECIPIENT, null);
             }
             accountFeignClient.updateAccountBalancePlus(transferRequest.getRecipientId(), transfer.getTransferAmount());
-        }
+//        }
 
         return transferRepo.save(transfer);
     }

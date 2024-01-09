@@ -134,6 +134,8 @@ public class SendTransferService {
                 .commissionType(transferRequest.getCommissionType())
                 .build();
 
+        System.out.println(transfer);
+
         if (transferRequest.getTransferType().equals(TransferType.IN_CASH)) {
             transfer.setTransferState(TransferState.TO_SERVE);
             String pin = transferService.generatePinCode();

@@ -2,7 +2,6 @@ package com.ensa.transferservice.controllers;
 
 import com.ensa.transferservice.dto.requests.*;
 import com.ensa.transferservice.dto.responses.ClientResponse;
-import com.ensa.transferservice.dto.responses.RecipientResponse;
 import com.ensa.transferservice.entities.Transfer;
 import com.ensa.transferservice.enums.TransferState;
 import com.ensa.transferservice.repositories.TransferRepo;
@@ -119,6 +118,7 @@ public class TransferController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> issueTransfer(@RequestBody TransferRequest transferRequest)
     {
+        System.out.println(transferRequest);
         return ResponseEntity.ok(
                 sendTransferService.issueTransfer(transferRequest)
         );
@@ -133,7 +133,7 @@ public class TransferController {
     }
     @PostMapping("/recipientSiron")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> checkRecipientSIRON(@RequestBody RecipientResponse recipient)
+    public ResponseEntity<?> checkRecipientSIRON(@RequestBody RecipientRequest recipient)
     {
         return ResponseEntity.ok(
                 sendTransferService.checkSIRON(recipient.getWalletId())
@@ -216,7 +216,7 @@ public class TransferController {
                 transferOperationService.blockTransfer(request)
         );
     }
-    @PutMapping ("/unblock/{reference}")
+    @PutMapping ("/unblock")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> unblockTransfer(@RequestBody OperationRequest request)
     {

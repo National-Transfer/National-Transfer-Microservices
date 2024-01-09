@@ -1,7 +1,7 @@
 package com.ensa.transferservice.feignClients;
 
 import com.ensa.transferservice.dto.responses.AccountResponse;
-import com.ensa.transferservice.dto.responses.RecipientResponse;
+//import com.ensa.transferservice.dto.responses.RecipientResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ public interface AccountFeignClient {
     @PostMapping("/api/v1/accounts/sendTransfer/{ownerId}")
     ResponseEntity<AccountResponse> updateAccountBalanceMinus(@PathVariable String ownerId, @RequestBody BigDecimal amount);
 
-    @PostMapping("/api/v2/accounts/createAccount")
-    ResponseEntity<AccountResponse> createAccount(@RequestBody RecipientResponse recipient);
+//    @PostMapping("/api/v2/accounts/createAccount")
+//    ResponseEntity<AccountResponse> createAccount(@RequestBody RecipientResponse recipient);
 
 }

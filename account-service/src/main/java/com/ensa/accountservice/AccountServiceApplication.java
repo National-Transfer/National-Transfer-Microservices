@@ -10,7 +10,6 @@ import java.util.*;
 
 @SpringBootApplication
 @RestController
-@RequestMapping("/api/v1/accounts")
 public class AccountServiceApplication {
 
 	public static void main(String[] args) {
