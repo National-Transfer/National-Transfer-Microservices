@@ -10,7 +10,12 @@ management:
       probes.enabled: true
       livenessState.enabled: true
       readinessState.enabled: true
-
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "gateway"
 # add more paths, filters, predicates later.
 spring:
   cloud:
