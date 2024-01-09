@@ -30,57 +30,57 @@ jobs:
           name: Build docker images
           command: mvn compile jib:build -DTAGS=latest,$CIRCLE_SHA1 -DDOCKER_USERNAME=$DOCKER_USERNAME -DDOCKER_PASSWORD=$DOCKER_PASSWORD
 
-    tag-docker-images:
-      docker:
-        - image: cimg/base:stable
-      steps:
-        - run:
-            name: Install Kustomize
-            command: |
-              URL="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
-              curl -s $URL | bash
-              sudo chmod +x ./kustomize
-              sudo mv ./kustomize /usr/local/bin
-        - add_ssh_keys:
-            fingerprints:
-              - "6d:ba:75:50:9d:2d:af:9e:d0:e2:70:a3:d1:48:43:fa"
-        - run:
-            name: "establish authenticity of github"
-            command: |
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              chmod 644 ~/.ssh/known_hosts
-        - run:
-            name: Clone manifests github repo
-            working_directory: ~/
-            command: |
-              URL="git@github.com:National-Transfer/National-Transfer-manifests.git"
-              git clone $URL manifests
-        - run:
-            name: Modify image tags
-            working_directory: ~/manifests
-            command: |
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-account-service=$DOCKER_USERNAME/national-transfer-account-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-transfer-service=$DOCKER_USERNAME/national-transfer-transfer-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-kyc-service=$DOCKER_USERNAME/national-transfer-kyc-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-agency-service=$DOCKER_USERNAME/national-transfer-agency-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-account-service=$DOCKER_USERNAME/national-transfer-account-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-api-gateway=$DOCKER_USERNAME/national-transfer-api-gateway:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-config-server=$DOCKER_USERNAME/national-transfer-config-server:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-batch-service=$DOCKER_USERNAME/national-transfer-batch-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-charge-service=$DOCKER_USERNAME/national-transfer-charge-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-notification-service=$DOCKER_USERNAME/national-transfer-notification-service:$CIRCLE_SHA1
-              kustomize edit set image $DOCKER_USERNAME/national-transfer-fraud-service=$DOCKER_USERNAME/national-transfer-fraud-service:$CIRCLE_SHA1
+  tag-docker-images:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Install Kustomize
+          command: |
+            URL="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
+            curl -s $URL | bash
+            sudo chmod +x ./kustomize
+            sudo mv ./kustomize /usr/local/bin
+      - add_ssh_keys:
+          fingerprints:
+            - "6d:ba:75:50:9d:2d:af:9e:d0:e2:70:a3:d1:48:43:fa"
+      - run:
+          name: "establish authenticity of github"
+          command: |
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            chmod 644 ~/.ssh/known_hosts
+      - run:
+          name: Clone manifests github repo
+          working_directory: ~/
+          command: |
+            URL="git@github.com:National-Transfer/National-Transfer-manifests.git"
+            git clone $URL manifests
+      - run:
+          name: Modify image tags
+          working_directory: ~/manifests
+          command: |
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-account-service=$DOCKER_USERNAME/national-transfer-account-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-transfer-service=$DOCKER_USERNAME/national-transfer-transfer-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-kyc-service=$DOCKER_USERNAME/national-transfer-kyc-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-agency-service=$DOCKER_USERNAME/national-transfer-agency-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-account-service=$DOCKER_USERNAME/national-transfer-account-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-api-gateway=$DOCKER_USERNAME/national-transfer-api-gateway:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-config-server=$DOCKER_USERNAME/national-transfer-config-server:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-batch-service=$DOCKER_USERNAME/national-transfer-batch-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-charge-service=$DOCKER_USERNAME/national-transfer-charge-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-notification-service=$DOCKER_USERNAME/national-transfer-notification-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/national-transfer-fraud-service=$DOCKER_USERNAME/national-transfer-fraud-service:$CIRCLE_SHA1
 
-        - run:
-            name: Commit & Push to manifests Github repo
-            working_directory: ~/manifests
-            command: |
-              git config user.email "$GITHUB_EMAIL"
-              git config user.name "CircleCI User"
-              git add kustomization.yml
-              git commit -am "Modified docker image tags [skip ci]"
-              git push origin main
+      - run:
+          name: Commit & Push to manifests Github repo
+          working_directory: ~/manifests
+          command: |
+            git config user.email "$GITHUB_EMAIL"
+            git config user.name "CircleCI User"
+            git add kustomization.yml
+            git commit -am "Modified docker image tags [skip ci]"
+            git push origin main
 
 
 # Invoke jobs via workflows
