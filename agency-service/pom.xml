@@ -110,7 +110,6 @@
 					<source>${java.version}</source> <!-- depending on your project -->
 					<target>${java.version}</target> <!-- depending on your project -->
 					<annotationProcessorPaths>
-						<annotationProcessorPaths>
 							<path>
 								<groupId>org.mapstruct</groupId>
 								<artifactId>mapstruct-processor</artifactId>
@@ -126,7 +125,6 @@
 								<artifactId>lombok-mapstruct-binding</artifactId>
 								<version>${lombok-mapstruct-binding.version}</version>
 							</path>
-						</annotationProcessorPaths>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
