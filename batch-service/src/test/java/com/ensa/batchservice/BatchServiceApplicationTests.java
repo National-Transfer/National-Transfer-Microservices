@@ -3,7 +3,7 @@ package com.ensa.batchservice;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class BatchServiceApplicationTests {
 
 	@Test

@@ -1,10 +1,10 @@
-package com.ensa.eurekaserver;
+package com.ensa.agencyservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 //@SpringBootTest
-class EurekaServerApplicationTests {
+class SalesPointEntityServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
