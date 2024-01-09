@@ -10,6 +10,12 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: secret
+    cloud:
+      kubernetes:
+        loadbalancer:
+          enabled: false
+        discovery:
+          enabled: false
   jpa:
     hibernate:
       ddl-auto: update

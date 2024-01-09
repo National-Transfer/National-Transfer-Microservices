@@ -3,6 +3,12 @@ spring.application.name: batch-service
 
 
 spring:
+  cloud:
+    kubernetes:
+      loadbalancer:
+        enabled: false
+      discovery:
+        enabled: false
   datasource:
     url: jdbc:mysql://localhost:3306/batchDB
     driverClassName: com.mysql.cj.jdbc.Driver

@@ -14,6 +14,12 @@ management:
 
 
 spring:
+  cloud:
+    kubernetes:
+      loadbalancer:
+        enabled: false
+      discovery:
+        enabled: false
   rabbitmq:
     host: localhost
     port: 5672

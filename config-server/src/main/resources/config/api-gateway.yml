@@ -14,6 +14,11 @@ management:
 # add more paths, filters, predicates later.
 spring:
   cloud:
+    kubernetes:
+      loadbalancer:
+        enabled: false
+      discovery:
+        enabled: false
     gateway:
       globalcors:
         corsConfigurations:

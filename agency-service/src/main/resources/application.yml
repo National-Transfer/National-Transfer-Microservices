@@ -4,3 +4,23 @@ spring.profiles.active: dev
 spring.application.name: agency-service
 
 spring.config.import: optional:configserver:http://config:secret@localhost:8090
+
+
+#spring:
+#  cloud:
+#    kubernetes:
+#      discovery:
+#        enabled: true
+#        namespaces:
+#          - prod
+#
+#        discovery-server-url: http://spring-cloud-kubernetes-discoveryserver.default.svc.cluster.local
+#
+#      loadbalancer:
+#        enabled: true
+
+
+
+#eureka:
+#  client:
+#    enabled: false
