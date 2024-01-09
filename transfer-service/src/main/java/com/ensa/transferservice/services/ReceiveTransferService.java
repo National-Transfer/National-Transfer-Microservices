@@ -13,6 +13,8 @@ import com.ensa.transferservice.feignClients.AccountFeignClient;
 import com.ensa.transferservice.feignClients.FraudFeignClient;
 import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ public class ReceiveTransferService {
     private final AmqpTemplate rabbitTemplate;
     private final FraudFeignClient fraudFeignClient;
     private final AccountFeignClient accountFeignClient;
+    private static final Logger logger = LoggerFactory.getLogger(ReceiveTransferService.class);
 
 
     @Value("${notification.exchange}")
@@ -53,6 +56,7 @@ public class ReceiveTransferService {
     }
 
     public Transfer checkTransferToServe(String reference) {
+        logger.info("Checking transfer to serve with reference: {}", reference);
         Transfer transfer = transferRepo.findByReference(reference).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
@@ -68,6 +72,7 @@ public class ReceiveTransferService {
     }
 
     public Transfer serveTransferCash(ServeTransferRequest serveRequest) {
+        logger.info("Serving transfer in cash for reference: {}", serveRequest.getReference());
         Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
                 () -> new ResourceNotFoundException("Transfer not found")
         );
@@ -83,19 +88,24 @@ public class ReceiveTransferService {
             if (transfer.getTransferNotification()) {
                 //msg to client with info
                 transferService.sendNotification(serveRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.TO_CLIENT, null);
+                logger.info("Notification sent to client for transfer reference: {}", transfer.getReference());
             }
             // //update agentAccount balance
             accountFeignClient.updateAccountBalanceMinus(receiverAgentId, transfer.getTransferAmount());
         }
-        return transferRepo.save(transfer);
+        Transfer savedTransfer = transferRepo.save(transfer);
+        logger.info("Transfer served in cash and saved. Transfer reference: {}", savedTransfer.getReference());
+        return savedTransfer;
     }
 
     public Transfer serveTransferToWallet(ServeTransferRequest serveRequest) {
+        logger.info("Attempting to serve transfer to wallet for reference: {}", serveRequest.getReference());
         Transfer transfer = transferRepo.findByReference(serveRequest.getReference()).orElseThrow(
                 () -> new NoSuchElementException("Transfer not found")
         );
 
         if (transfer.getTransferType().equals(TransferType.BY_WALLET)) {
+            logger.info("Processing transfer to wallet for clientId: {}", serveRequest.getClientId());
 
             AccountResponse clientAccount = accountFeignClient.getAccountByOwnerId(serveRequest.getClientId()).getBody();
 
@@ -104,6 +114,7 @@ public class ReceiveTransferService {
 
 //            send otp notification to client
             transferService.sendNotification(serveRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.OTP, otp);
+            logger.info("OTP notification sent for transfer reference: {}", transfer.getReference());
 
             return transferRepo.save(transfer);
         }
@@ -111,6 +122,8 @@ public class ReceiveTransferService {
     }
 
     public Transfer validateTransferToWallet(ValidateTransferRequest transferRequest) {
+        logger.info("Validating transfer to wallet for reference: {}", transferRequest.getReference());
+
         Transfer transfer = transferRepo.findByReference(transferRequest.getReference()).orElseThrow(
                 () -> new NoSuchElementException("Transfer not found")
         );
@@ -119,12 +132,15 @@ public class ReceiveTransferService {
                 throw new IllegalArgumentException("Incorrect OTP code !");
 
             transfer.setTransferState(TransferState.SERVED);
+            logger.info("Transfer state set to SERVED for reference: {}", transfer.getReference());
 
             if (transfer.getTransferNotification()) {
                 //msg to recipient with info
                 transferService.sendNotification(transferRequest.getPhone(), transfer.getReference(), transfer.getTransferAmount(), transfer.getTransferState(), MsgType.TO_RECIPIENT, null);
+                logger.info("Notification sent to recipient for transfer reference: {}", transfer.getReference());
             }
             accountFeignClient.updateAccountBalancePlus(transferRequest.getRecipientId(), transfer.getTransferAmount());
+            logger.info("Account balance updated for recipientId: {}", transferRequest.getRecipientId());
         }
 
         return transferRepo.save(transfer);
@@ -165,23 +181,44 @@ public class ReceiveTransferService {
 //    }
 
     private void validateTransferIntegrity(Transfer transfer) {
-        if (transfer.getTransferState() == TransferState.SERVED)
+        logger.info("Validating transfer integrity for reference: {}", transfer.getReference());
+
+        if (transfer.getTransferState() == TransferState.SERVED){
+            logger.warn("Transfer with reference {} is already served", transfer.getReference());
             throw new InvalidTransferException("Transfer paid");
+        }
 
-        if (transfer.getTransferState() == TransferState.BLOCKED)
+
+        if (transfer.getTransferState() == TransferState.BLOCKED){
+            logger.warn("Transfer with reference {} is blocked", transfer.getReference());
             throw new InvalidTransferException("Transfer blocked");
+        }
 
-        if (transfer.getTransferState() == TransferState.REVERSED)
+
+        if (transfer.getTransferState() == TransferState.REVERSED){
+            logger.warn("Transfer with reference {} is reversed", transfer.getReference());
             throw new InvalidTransferException("Transfer reversed");
+        }
 
-        if (transfer.getTransferState() == TransferState.RETURNED)
+
+        if (transfer.getTransferState() == TransferState.RETURNED){
+            logger.warn("Transfer with reference {} is returned", transfer.getReference());
             throw new InvalidTransferException("Transfer returned");
+        }
 
-        if (transfer.getTransferState() == TransferState.ESCHEAT)
+
+        if (transfer.getTransferState() == TransferState.ESCHEAT){
+            logger.warn("Transfer with reference {} is escheated", transfer.getReference());
             throw new InvalidTransferException("Transfer deshéré");
+        }
 
-        if (transfer.getExpirationDate().isBefore(LocalDate.now()))
+
+        if (transfer.getExpirationDate().isBefore(LocalDate.now())){
+            logger.warn("Transfer with reference {} is expired", transfer.getReference());
             throw new InvalidTransferException("Transfer expired");
+        }
+
+        logger.info("Transfer with reference {} passed all integrity checks", transfer.getReference());
     }
 
 }

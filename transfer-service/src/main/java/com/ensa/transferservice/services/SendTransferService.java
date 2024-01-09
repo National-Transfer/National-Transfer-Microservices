@@ -19,6 +19,8 @@ import com.ensa.transferservice.feignClients.ChargeFeignClient;
 import com.ensa.transferservice.feignClients.FraudFeignClient;
 import com.ensa.transferservice.repositories.TransferRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,61 +53,95 @@ public class SendTransferService {
     @Value("${notification.exchange}")
     private String exchangeName;
 
+    private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
+
     public Boolean checkSIRON(String id) {
         SironCheckResponse sironCheck = fraudFeignClient.checkSIRON(id).getBody();
 
         if (sironCheck != null && sironCheck.getIsValid())
             throw new IllegalArgumentException("The client is BlackListed");
 
+        logger.info("Client with ID {} passed the SIRON check", id);
+
         return Boolean.TRUE;
     }
 
     private AccountResponse getAccount(TransferType transferType, String clientId, String agentId) {
+        logger.info("Retrieving account for transfer type: {}", transferType);
         String id = switch (transferType) {
             case BY_WALLET -> clientId;
             case IN_CASH -> agentId;
             default -> throw new IllegalArgumentException("Unsupported TransferType: " + transferType);
         };
-        return accountFeignClient.getAccountByOwnerId(id).getBody();
+        AccountResponse accountResponse = accountFeignClient.getAccountByOwnerId(id).getBody();
+        if (accountResponse == null) {
+            logger.warn("No account found for ID: {}", id);
+        } else {
+            logger.info("Account successfully retrieved for ID: {}", id);
+        }
+
+        return accountResponse;
     }
 
     public TransferAmountResponse calculateTransferAmount(TransferAmountRequest transferAmountRequest) {
+
+        logger.info("Calculating transfer amount for request: {}", transferAmountRequest);
         AccountResponse account = getAccount(transferAmountRequest.getTransferType(),
                 transferAmountRequest.getClientId(),
                 transferAmountRequest.getAgentId()
         );
 
-        if (account == null)
+        if (account == null){
+            logger.error("Account not found for client ID: {} and agent ID: {}", transferAmountRequest.getClientId(), transferAmountRequest.getAgentId());
             throw new ResourceNotFoundException("Account not found");
+        }
+
 
         //commission
         TransferAmountResponse amountResponse = chargeFeignClient.getCommissionTotal(transferAmountRequest).getBody();
 
-        if (amountResponse == null)
+        if (amountResponse == null){
+            logger.error("Failed to retrieve commission total for transfer request: {}", transferAmountRequest);
             throw new TransferAmountException("Error while returning the total amount !");
+        }
 
         //add notification cost
-        if (transferAmountRequest.getTransferNotification())
+        if (transferAmountRequest.getTransferNotification()){
+            logger.debug("Added notification cost to total amount for request: {}", transferAmountRequest);
             amountResponse.setTotalAmount(
                     amountResponse.getTotalAmount().add(TRANSFER_NOTIFICATION_COST)
             );
+        }
 
-        if (amountResponse.getTotalAmount().compareTo(account.getBalance()) > 0)
+
+        if (amountResponse.getTotalAmount().compareTo(account.getBalance()) > 0){
+            logger.warn("Insufficient balance for transfer request: {}", transferAmountRequest);
             throw new TransferAmountException("The account doesn't have enough balance");
+        }
+
 
 
         if (transferAmountRequest.getTransferType().equals(TransferType.BY_WALLET)) {
-            if (MAX_TRANSFER_LIMIT_PER_TRANSACTION.compareTo(amountResponse.getTotalAmount()) < 0)
+            if (MAX_TRANSFER_LIMIT_PER_TRANSACTION.compareTo(amountResponse.getTotalAmount()) < 0){
+                logger.warn("Transfer amount exceeds the maximum limit for wallet transfer: {}", transferAmountRequest);
                 throw new TransferAmountException("The max amount allowed is " + MAX_TRANSFER_LIMIT_PER_TRANSACTION);
+            }
 
-            if (ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) < 0)
+
+            if (ANNUAL_AMOUNT_TRANSFER_LIMIT.compareTo(account.getAnnualAmountTransfer()) < 0){
+                logger.warn("Annual transfer limit exceeded for account: {}", account);
                 throw new TransferAmountException("The max of transfers allowed in a single year should be < " + ANNUAL_AMOUNT_TRANSFER_LIMIT);
+            }
+
 
         } else if (transferAmountRequest.getTransferType().equals(TransferType.IN_CASH)) {
-            if (MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT.compareTo(amountResponse.getTotalAmount()) < 0)
+            if (MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT.compareTo(amountResponse.getTotalAmount()) < 0){
+                logger.warn("Transfer amount exceeds the maximum limit for cash transfer: {}", transferAmountRequest);
                 throw new TransferAmountException("The max amount allowed is " + MAX_TRANSFER_LIMIT_PER_TRANSACTION_FOR_AGENT);
-        }
+            }
 
+        }
+        logger.info("Transfer amount calculated successfully for request: {}", transferAmountRequest);
         return amountResponse;
     }
 
